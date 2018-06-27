@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const driver = require('bigchaindb-driver');
 const routerics = express.Router();
+
 var config = require('./config');
 
 
@@ -22,7 +23,7 @@ routerics.get('/claims', function(req, res){
                 claims: bcdb_results_list
             })
         }).catch( e=> {
-            console.log(e)
+            console.log("BCDB Problem!");
         })
         //Maybe there is a faster and better way to do this, but my JS knowledge is not so good :/
 })

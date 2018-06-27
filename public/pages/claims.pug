@@ -242,6 +242,7 @@ html(lang='en')
                       th Claim Date
                       th OOE
                       th Sum Expenses
+                      th File
                   tbody
                     each claim in claims
                       tr.odd.gradeA
@@ -251,6 +252,8 @@ html(lang='en')
                         td #{claim.data.claim_date}
                         td #{claim.data.ooe}
                         td #{claim.data.sum_expense}
+                        td 
+                           button(type="submit",onclick="openInNewTab(" + "'" + claim.data.ipfs_location + "'" + ")") Show File
                 button.btn.btn-primary(type='button') Create bill
                 // /.table-responsive
               // /.panel-body
@@ -272,6 +275,12 @@ html(lang='en')
     // Custom Theme JavaScript
     script(src='../../dist/js/sb-admin-2.js')
     // Page-Level Demo Scripts - Tables - Use for reference
+    script.
+      function openInNewTab(ipfs_file_hash) {
+      var ipfs_path = "https://ipfs.io/ipfs/" + ipfs_file_hash;
+      var win = window.open(ipfs_path, '_blank');
+      win.focus();
+      };
     script.
       $(document).ready(function () {
       $('#dataTables-example').DataTable({
