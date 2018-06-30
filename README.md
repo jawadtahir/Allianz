@@ -5,11 +5,21 @@
 Clone the repo.  
 Go to ```/src/config.js```  
 Put your own ```APP_ID``` and ```APP_KEY```  
+Run your local BCDB Instance
+Check if it has data ```./test.bcdb.py```
+Populate it with data if it is empty ```./populate_bcdp.py```
+Run your IPFS Daemon
 npm install  
 npm start  
- 
+
 go port 30001  
 
+## Run Local BCDB instance ##
+```git clone https://github.com/bigchaindb/bigchaindb```  
+```cd bigchaindb```  
+```make run```  
+
+! If you are running a mongodb instance locally, bigchaindb cannot get started. You can stop your local mongodb instance with: ```sudo service stop mongodb```
 
 ## Populate And Test Big Chain Database ##
 If you cannot see any claims in ```/claims``` page then please follow these instructions:  
@@ -63,6 +73,3 @@ Add File To IPFS
 
 ### How to get a pull request and work on top of it ###
 - ```git fetch upstream pull/{pull-request-id}/head:{pull-request-owners-branch-name}  
-
-
-

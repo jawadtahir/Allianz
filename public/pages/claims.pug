@@ -248,12 +248,12 @@ html(lang='en')
                       tr.odd.gradeA
                         td
                           input(type='checkbox')
-                        td #{claim.data.claim_id}
-                        td #{claim.data.claim_date}
-                        td #{claim.data.ooe}
-                        td #{claim.data.sum_expense}
-                        td 
-                           button(type="submit",onclick="openInNewTab(" + "'" + claim.data.ipfs_location + "'" + ")") Show File
+                        td #{claim.claim_id}
+                        td #{claim.claim_date}
+                        td #{claim.ooe}
+                        td #{claim.sum_expense}
+                        td
+                           button(type="submit",onclick="openInNewTab(" + "'" + claim.ipfs_location + "'" + ")") Show File
                 button.btn.btn-primary(type='button') Create bill
                 // /.table-responsive
               // /.panel-body
