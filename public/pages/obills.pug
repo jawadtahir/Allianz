@@ -1,0 +1,98 @@
+doctype html
+html(lang='en')
+  head
+    include header_with_tables.pug
+    title Allianz ICS
+  body
+    #wrapper
+      // Navigation
+      include navbar.pug
+      #page-wrapper
+        .row
+          .col-lg-12
+            h1.page-header Owning bills
+          // /.col-lg-12
+        // /.row
+        .row
+          .col-lg-12
+            .panel.panel-default
+              .panel-heading
+                | Unauthorized bills
+              // /.panel-heading
+              .panel-body
+                table#dataTables-example.table.table-striped.table-bordered.table-hover(width='100%')
+                  thead
+                    tr
+                      th Bill #
+                      th Due date
+                      th Bill amount
+                      th HOE
+                      th Action
+                  tbody
+                    tr.odd.gradeA
+                      td 1234
+                      td 10.03.2018
+                      td 797
+                      td.center Germany
+                      td.center
+                        button.btn.btn-primary(type='button') Authorize
+                    tr.even.gradeA
+                      td 1235
+                      td 20.03.2018
+                      td 582
+                      td.center Germany
+                      td.center
+                        button.btn.btn-primary(type='button') Authorize
+                // /.table-responsive
+              // /.panel-body
+            // /.panel
+          // /.col-lg-12
+        .row
+          .col-lg-12
+            .panel.panel-default
+              .panel-heading
+                | Authorized bills
+              // /.panel-heading
+              .panel-body
+                table#dataTables-example.table.table-striped.table-bordered.table-hover(width='100%')
+                  thead
+                    tr
+                      th Select
+                      th Bill #
+                      th Due date
+                      th Bill amount
+                      th HOE
+                      th Authorized by
+                  tbody
+                    tr.odd.gradeA
+                      td
+                        input(type='checkbox')
+                      td 1234
+                      td 10.03.2018
+                      td 797
+                      td.center Germany
+                      td.center User1234
+                    tr.even.gradeA
+                      td
+                        input(type='checkbox')
+                      td 1234
+                      td 10.03.2018
+                      td 797
+                      td.center Germany
+                      td.center User1234
+                button.btn.btn-primary(type='button') Pay
+                // /.table-responsive
+              // /.panel-body
+            // /.panel
+          // /.col-lg-12
+        // /.row
+      // /#page-wrapper
+    // /#wrapper
+    // jQuery
+    include scripts_with_tables.pug
+    script.
+      $(document).ready(function () {
+      $('#dataTables-example').DataTable({
+      responsive: true
+      });
+      });
