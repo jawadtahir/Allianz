@@ -1,0 +1,9 @@
+
+/** Sample queries for Commodity Trading business network
+*/
+query getBillsToPay {
+  description: "Get a specific bill with id"
+  statement:
+    SELECT de.tum.allianz.ics.Bill
+      WHERE (billId == _$billId)
+}
