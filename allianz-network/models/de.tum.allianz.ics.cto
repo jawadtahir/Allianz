@@ -33,6 +33,7 @@ concept Claim  {
   o String ClaimId
   --> OE owner
   --> OE handler
+  o String hash
   o Double totalAmount default = 0.0
 }
 transaction SampleTransaction {
@@ -46,6 +47,13 @@ event SampleEvent {
   o String newValue
 }
 
+concept BillConcept {
+  o String BillConceptID
+  o Double penalty
+
+}
+
+
 asset Bill identified by billId {
   o String billId
   --> OE ooe
@@ -58,6 +66,7 @@ asset Bill identified by billId {
   o Double totalOutstanding default = 0.0
   o DateTime dueDate optional
   --> User authorizor optional
+  --> User payer optional
   o DateTime authDate optional
 }
 
@@ -80,8 +89,7 @@ transaction CreateBill {
   o DateTime dueDate
 }
 transaction Pay {
-   --> Bill bill
-  o Integer billId
+  o BillConcept[] bills
   o Double amount
 
 }
