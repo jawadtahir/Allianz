@@ -5,23 +5,27 @@
 Clone the repo.  
 Go to ```/src/config.js```  
 Put your own ```APP_ID``` and ```APP_KEY```  
-Run your local BCDB Instance
-Check if it has data ```./test.bcdb.py```
-Populate it with data if it is empty ```./populate_bcdp.py```
-Run your IPFS Daemon
+Run your local BCDB Instance  
+Check if it has data ```./test.bcdb.py```  
+Populate it with data if it is empty ```./populate_bcdp.py```  
+Run your IPFS Daemon  
 npm install  
 npm start  
 
 go port 30001  
 
-## Run Local BCDB instance ##
+- We have already 5 different claims in BCDB and IPFS. You don't need to upload a file/insert something to BCDB to test it.  
+- If you cannot see any claims while testing, please look at ```Populate and Test Big Chain Database``` section.  
+- To be able to run an ipfs daemon, you should install it first. Please look at ```Install IPFS`` section.  
+
+## How to Run Local BCDB instance ##
 ```git clone https://github.com/bigchaindb/bigchaindb```  
 ```cd bigchaindb```  
 ```make run```  
 
-! If you are running a mongodb instance locally, bigchaindb cannot get started. You can stop your local mongodb instance with: ```sudo service stop mongodb```
+! If you are running a mongodb instance locally, bigchaindb cannot get started. You can stop your local mongodb instance with: ```sudo service stop mongodb stop```  
 
-## Populate And Test Big Chain Database ##
+## Populate and Test Big Chain Database ##
 If you cannot see any claims in ```/claims``` page then please follow these instructions:  
 In this repo, there are two python scripts for bigchain.db 	
 To use them first install bigchaindb-driver for python3  
@@ -39,15 +43,18 @@ Then first run ```populate_bcdp.py``` and populate your bigchaindb, and then run
 
 [1] -> You can use my ApplicationId and Application key, that I shared via slack-channel.  
 
-## Add File To IPFS, Get It From /Claims ##
-You DO NOT need to run an IPFS daemon to GET file from IPFS. However if you want to add some files to IPFS, you must run IPFS locally  
+## Install IPFS ##
+To be able to run ```ipfs daemon``` that required for testing. First you must install ipfs to your system. Please follow these steps to install it:  
 
-Add File To IPFS  
 - Download IPFS according to your architecture/OS [from](https://dist.ipfs.io/#go-ipfs)  
-- ```cd Downloads && tar xvfz go-ipfs.tar.gz```  
 - ```cd go-ipfs && ./install.sh```  
 - ```ipfs init```  
 - Look at your terminal and copy && paste the command that ipfs gave to you  
+- Start Deamon with ```ipfs daemon```  
+
+## Add File To IPFS, Get It From /Claims ##
+To be able to add file to IPFS, first install IPFS and then follow these instructions:  
+
 - Go to Allianz root then ```cd ipfs```  
 - ```npm install && npm start``` (Wait until its started)  
 - Start Daemon with ```ipfs daemon```  
