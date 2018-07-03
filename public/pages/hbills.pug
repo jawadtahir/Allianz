@@ -1,0 +1,58 @@
+doctype html
+html(lang='en')
+  head
+    include header_with_tables.pug
+    title Allianz ICS
+  body
+    #wrapper
+      // Navigation
+      include navbar.pug
+      #page-wrapper
+        .row
+          .col-lg-12
+            h1.page-header Handling bills
+          // /.col-lg-12
+        // /.row
+        .row
+          .col-lg-12
+            .panel.panel-default
+              .panel-heading
+                | Handling bills
+              // /.panel-heading
+              .panel-body
+                table#dataTables-example.table.table-striped.table-bordered.table-hover(width='100%')
+                  thead
+                    tr
+                      th Bill #
+                      th Due date
+                      th Bill amount
+                      th OOE
+                      th Status
+                  tbody
+                    tr.odd.gradeA
+                      td 1234
+                      td 10.03.2018
+                      td 797
+                      td.center Spain
+                      td.center Pending
+                    tr.even.gradeA
+                      td 1235
+                      td 20.03.2018
+                      td 582
+                      td.center Purtugal
+                      td.center Setteled
+                // /.table-responsive
+              // /.panel-body
+            // /.panel
+          // /.col-lg-12
+        // /.row
+      // /#page-wrapper
+    // /#wrapper
+    // jQuery
+    include scripts_with_tables.pug
+    script.
+      $(document).ready(function () {
+      $('#dataTables-example').DataTable({
+      responsive: true
+      });
+      });
