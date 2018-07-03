@@ -1,0 +1,243 @@
+doctype html
+html(lang='en')
+  head
+    include header_with_charts.pug
+    title Allianz ICS system
+  body
+    #wrapper
+      // Navigation
+      include navbar.pug
+      #page-wrapper
+        .row
+          .col-lg-12
+            h1.page-header Dashboard
+          // /.col-lg-12
+        // /.row
+        .row
+          .col-lg-3.col-md-6
+            .panel.panel-primary
+              .panel-heading
+                .row
+                  .col-xs-3
+                    i.fa.fa-inbox.fa-5x
+                  .col-xs-9.text-right
+                    .huge 26
+                    div Incomplete Claim
+              a(href='/ics')
+                .panel-footer
+                  span.pull-left View Details
+                  span.pull-right
+                    i.fa.fa-arrow-circle-right
+                  .clearfix
+          .col-lg-3.col-md-6
+            .panel.panel-green
+              .panel-heading
+                .row
+                  .col-xs-3
+                    i.fa.fa-briefcase.fa-5x
+                  .col-xs-9.text-right
+                    .huge 12
+                    div Completed claims
+              a(href='/ics/claims/')
+                .panel-footer
+                  span.pull-left View Details
+                  span.pull-right
+                    i.fa.fa-arrow-circle-right
+                  .clearfix
+          .col-lg-3.col-md-6
+            .panel.panel-yellow
+              .panel-heading
+                .row
+                  .col-xs-3
+                    i.fa.fa-tasks.fa-5x
+                  .col-xs-9.text-right
+                    .huge 124
+                    div Owning bills
+              a(href='/ics/obills/')
+                .panel-footer
+                  span.pull-left View Details
+                  span.pull-right
+                    i.fa.fa-arrow-circle-right
+                  .clearfix
+          .col-lg-3.col-md-6
+            .panel.panel-red
+              .panel-heading
+                .row
+                  .col-xs-3
+                    i.fa.fa-database.fa-5x
+                  .col-xs-9.text-right
+                    .huge 13
+                    div Handeling bills
+              a(href='/ics/hbills/')
+                .panel-footer
+                  span.pull-left View Details
+                  span.pull-right
+                    i.fa.fa-arrow-circle-right
+                  .clearfix
+        // /.row
+        .row
+          .col-lg-12
+            .panel.panel-default
+              .panel.panel-default
+                .panel-heading
+                  i.fa.fa-clock-o.fa-fw
+                  |  Responsive Timeline
+                // /.panel-heading
+                .panel-body
+                  ul.timeline
+                    li
+                      .timeline-badge.warning
+                        i.fa.fa-tasks
+                      .timeline-panel
+                        .timeline-heading
+                          h4.timeline-title New bill created
+                          p
+                            small.text-muted
+                              i.fa.fa-clock-o
+                              |  11 hours ago
+                        .timeline-body
+                          p A new bill created by Allianz Spain for 1500$
+                    li.timeline-inverted
+                      .timeline-badge.warning
+                        i.fa.fa-check-circle
+                      .timeline-panel
+                        .timeline-heading
+                          h4.timeline-title Bill authorized
+                        .timeline-body
+                          p Bill 1234 is authorized by User123
+                    li
+                      .timeline-badge.primary
+                        i.fa.fa-inbox
+                      .timeline-panel
+                        .timeline-heading
+                          h4.timeline-title Claim completed
+                        .timeline-body
+                          p Claim CAR12312354 is completed
+                    li.timeline-inverted
+                      .timeline-badge.success
+                        i.fa.fa-money
+                      .timeline-panel
+                        .timeline-heading
+                          h4.timeline-title Bill payed
+                        .timeline-body
+                          p Bill 1234 is payed by Spain
+                // /.panel-body
+              .panel.panel-default
+                .panel-heading
+                  i.fa.fa-bar-chart-o.fa-fw
+                  |  Donut Chart Example
+                .panel-body
+                  #morris-donut-chart
+                  a.btn.btn-default.btn-block(href='#') View Details
+                // /.panel-body
+              .panel-heading
+                i.fa.fa-bar-chart-o.fa-fw
+                |  Area Chart Example
+                .pull-right
+                  .btn-group
+                    button.btn.btn-default.btn-xs.dropdown-toggle(type='button', data-toggle='dropdown')
+                      | Actions
+                      span.caret
+                    ul.dropdown-menu.pull-right(role='menu')
+                      li
+                        a(href='#') Action
+                      li
+                        a(href='#') Another action
+                      li
+                        a(href='#') Something else here
+                      li.divider
+                      li
+                        a(href='#') Separated link
+              // /.panel-heading
+              .panel-body
+                #morris-area-chart
+              // /.panel-body
+            // /.panel
+            .panel.panel-default
+              .panel-heading
+                i.fa.fa-bar-chart-o.fa-fw
+                |  Bar Chart Example
+                .pull-right
+                  .btn-group
+                    button.btn.btn-default.btn-xs.dropdown-toggle(type='button', data-toggle='dropdown')
+                      | Actions
+                      span.caret
+                    ul.dropdown-menu.pull-right(role='menu')
+                      li
+                        a(href='#') Action
+                      li
+                        a(href='#') Another action
+                      li
+                        a(href='#') Something else here
+                      li.divider
+                      li
+                        a(href='#') Separated link
+              // /.panel-heading
+              .panel-body
+                .row
+                  .col-lg-4
+                    .table-responsive
+                      table.table.table-bordered.table-hover.table-striped
+                        thead
+                          tr
+                            th #
+                            th Date
+                            th Time
+                            th Amount
+                        tbody
+                          tr
+                            td 3326
+                            td 10/21/2013
+                            td 3:29 PM
+                            td $321.33
+                          tr
+                            td 3325
+                            td 10/21/2013
+                            td 3:20 PM
+                            td $234.34
+                          tr
+                            td 3324
+                            td 10/21/2013
+                            td 3:03 PM
+                            td $724.17
+                          tr
+                            td 3323
+                            td 10/21/2013
+                            td 3:00 PM
+                            td $23.71
+                          tr
+                            td 3322
+                            td 10/21/2013
+                            td 2:49 PM
+                            td $8345.23
+                          tr
+                            td 3321
+                            td 10/21/2013
+                            td 2:23 PM
+                            td $245.12
+                          tr
+                            td 3320
+                            td 10/21/2013
+                            td 2:15 PM
+                            td $5663.54
+                          tr
+                            td 3319
+                            td 10/21/2013
+                            td 2:13 PM
+                            td $943.45
+                    // /.table-responsive
+                  // /.col-lg-4 (nested)
+                  .col-lg-8
+                    #morris-bar-chart
+                  // /.col-lg-8 (nested)
+                // /.row
+              // /.panel-body
+            // /.panel
+            // /.panel
+          // /.col-lg-8
+          // /.col-lg-4
+        // /.row
+      // /#page-wrapper
+    // /#wrapper
+    // jQuery
+    include scripts_with_charts.pug

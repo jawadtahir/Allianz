@@ -2,3 +2,15 @@ node_modules
 bower_components
 \.vscode/
 /.vs
+
+*.card
+
+allianz-network/114aab0e76bf0c78308f89efc4b8c9423e31568da0c340ca187a9b17aa9a4457_sk
+
+*.pem
+
+*.bna
+
+allianz-network/package-lock\.json
+
+allianz-network/package\.json
