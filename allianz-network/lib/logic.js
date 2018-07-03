@@ -43,7 +43,7 @@ async function sampleTransaction(tx) {
 }
 /**
  * create bill
- * @param {de.tum.allianz.ics.CreateBill} createBill - creation of Bills (Give OE ID to use this transaction)
+ * @param {de.tum.allianz.ics.CreateBill} createBill - creation of Bills (Give OE ID to use this transaction.)
  * @transaction
  */
 async function CreateBill(make) {
@@ -63,7 +63,6 @@ async function CreateBill(make) {
     bill.totalOutstanding = totalAmount.reduce((a,b) => a+b,0) + handlingFee.reduce((a,b) => a+b,0);
     bill.status = 'PENDING';
     bill.dueDate = make.dueDate;
-
     await asset.add(bill);
 }
 
@@ -81,11 +80,28 @@ function calculateHandlingFee(claims){
     });
     return handlingFee;
 }
+/**
+ * update bill
+ * @param {de.tum.allianz.ics.calculatePenalty} tx - the pay to be processed
+ * @transaction
+ */
+async function calculatePenalty(tx) {
+    var bills = tx.billIds;
+    var todayDate = tx.payDate;
 
-// function calculatePenalty(bill){}
-
-// function calculateDueDate(bill){}
-
+    return await getAssetRegistry('de.tum.allianz.ics.Bill').then( function (registry){
+        var billObjs = [];
+        var totalPenality = 0;
+        for (var i = 0; i < bills.length; i++){
+            var bill = registry.get(bills[i]);
+            if (bill.dueDate < todayDate){
+                bill.latePenality = (bill.totalOutstanding * (12 / 100));
+                billObjs.push(bill);
+            }
+        }
+        return billObjs;
+    });
+}
 
 
 
@@ -95,22 +111,39 @@ function calculateHandlingFee(claims){
  * @transaction
  */
 async function pay(pay) {
-    var outstanding = pay.bill.totalOutstanding;
-    outstanding -= pay.amount;
-    pay.bill.totalOutstanding = outstanding;
-    if (outstanding <= 0){
-        pay.bill.status = 'SETTELED';
-    }
-    // Get the asset registry for the asset.
-    const assetRegistry = await getAssetRegistry('de.tum.allianz.ics.Bill');
-    // Update the asset in the asset registry.
-    await assetRegistry.update(pay.bill);
+    var bills = pay.bills;
+    return await getAssetRegistry('de.tum.allianz.ics.Bill').then( function (registry){
+        for (var i = 0; i < bills.length; i++){
+            var bill = registry.get(bills[i].billConceptId);
+            bill.totalOutstanding = 0.0;
+            bill.latePenality = bills[i].penalty;
+            bill.status = 'SETTELED';
+            //bill.payer=getCurrentParticipant();
+            registry.update(bill);
+        }
+        let event = getFactory().newEvent('de.tum.allianz.ics', 'OnPay');
+        event.bill = pay.bill;
+        emit(event);
+    });
 
-    // Emit an event for the modified asset.
-    let event = getFactory().newEvent('de.tum.allianz.ics', 'OnPay');
-    event.bill = pay.bill;
-    emit(event);
 }
+// Get the asset registry for the asset.
+// return getAssetRegistry('de.tum.allianz.ics.Bill').then(function (assetRegistry)
+// {
+//     return query('getBillsToPay', { billId: pay.billId }).then(function (results) {
+//         var outstanding = pay.bill.totalOutstanding;
+//         outstanding -= pay.amount;
+//         if (outstanding <= 0) {
+//             results.status = 'SETTELED';
+//         }
+//         assetRegistry.update(results);
+//         let event = getFactory().newEvent('de.tum.allianz.ics', 'OnPay');
+//         event.bill = pay.bill;
+//         emit(event);
+//     });
+// });
+
+//}
 
 /**
  * Authoriize bill

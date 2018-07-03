@@ -80,8 +80,10 @@ transaction CreateBill {
   o DateTime dueDate
 }
 transaction Pay {
-  --> Bill bill
+   --> Bill bill
+  o Integer billId
   o Double amount
+
 }
 
 transaction Authorize {
@@ -96,9 +98,9 @@ transaction UpdateHFee {
   o Double newValue
 }
 
-transaction UpdateOutstanding {
-  --> Bill bill
-  o Double newValue
+transaction calculatePenalty {
+  o String [] billIds
+  o DateTime payDate
 }
 
 transaction UpdateAmount {
