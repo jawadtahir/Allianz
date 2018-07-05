@@ -1,6 +1,19 @@
 doctype html
 html(lang='en')
   head
+    -var i = 0
+    -var list = [['1234', '10.03.2018', '797','Spain', 'Pending'],['1235','20.03.2018', '582', 'Portugal', 'Settled']]
+    script(src= 'https://unpkg.com/jspdf@latest/dist/jspdf.min.js')
+    script.
+        var createPDF = function (hbill) {
+            var doc = new jsPDF();
+            console.log(hbill)
+            doc.text('Hello world!',10,10);
+            // doc.save('a4.pdf')
+        }
+
+    - var btnType = 'info'
+    - var btnSize = 'sm'
     include header_with_tables.pug
     title Allianz ICS
   body
@@ -28,19 +41,17 @@ html(lang='en')
                       th Bill amount
                       th OOE
                       th Status
+                      th PDF
                   tbody
-                    tr.odd.gradeA
-                      td 1234
-                      td 10.03.2018
-                      td 797
-                      td.center Spain
-                      td.center Pending
-                    tr.even.gradeA
-                      td 1235
-                      td 20.03.2018
-                      td 582
-                      td.center Purtugal
-                      td.center Setteled
+                    each hbill in list
+                      tr
+                      td #{hbill[0]}
+                      td #{hbill[1]}
+                      td #{hbill[2]}
+                      td #{hbill[3]}
+                      td #{hbill[4]}
+                      td
+                        button.center-block(type='button' class='btn btn-' + btnType + ' btn-' + btnSize  name = 'create PDF' onclick = `createPDF(${JSON.stringify(hbill)})`)= 'Create PDF'
                 // /.table-responsive
               // /.panel-body
             // /.panel
