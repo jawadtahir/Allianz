@@ -2,7 +2,46 @@ const path = require('path');
 const driver = require('bigchaindb-driver');
 const ipfsAPI = require('ipfs-api')
 const config = app.get('config')
-const ipfs = ipfsAPI('/ip4/127.0.0.1/tcp/5001');
+const ipfs = ipfsAPI('localhost', '5001');
+const hardcoded_ipfs_files = [
+	{
+  "claim_id" : "1",
+  "claim_date": "20.06.2018",
+  "ooe": "allianz-pl",
+  "hoe": "alliaz-de",
+  "sum_expense": "2000"
+},
+{
+  "claim_id" : "2",
+  "claim_date": "21.06.2018",
+  "ooe": "allianz-sp",
+  "hoe": "alliaz-de",
+  "sum_expense": "2000"
+},
+{
+  "claim_id" : "3",
+  "claim_date": "25.06.2018",
+  "ooe": "allianz-fr",
+  "hoe": "alliaz-de",
+  "sum_expense": "2000"
+},
+{
+  "claim_id" : "4",
+  "claim_date": "29.06.2018",
+  "ooe": "allianz-uk",
+  "hoe": "alliaz-de",
+  "sum_expense": "2000"
+},
+{
+  "claim_id" : "5",
+  "claim_date": "21.06.2018",
+  "ooe": "allianz-au",
+  "hoe": "alliaz-de",
+  "sum_expense": "2000"
+}
+]
+
+
 exports.claims_list = function(req, res) {
 	bcdb_conn = new driver.Connection(config.ROOT_URL);
 	//Passing Res as a parameter is a crazy-hack, however I couldn't load all claims before launching page :/
@@ -30,10 +69,23 @@ async function extractFileHashesFromAssets(assets_arr, res) {
 
 //I know its totaly agains async nature of Node.js, but couldn't find a better way and also don't want to block anyone.
 //Lets use as that, but if I find a better way I will upload that definetly.
-function getIpfsData(ipfs_file_hashes, res) {
+async function getIpfsData(ipfs_file_hashes, res) {
 	var claims = [];
 	var num_of_files = ipfs_file_hashes.length;
 	for(var i=0; i< ipfs_file_hashes.length; i++) {
+		//console.log(ipfs_file_hashes[i]);
+		//var link = 'https://ipfs.io/ipfs/'+ipfs_file_hashes[i];
+		//console.log(link)
+		//let read_ipfs_file = ipfs.files.cat(link).then((response) => {
+		//	console.log(response) }).catch((err) => {console.log("Error during reading IPFS File!!! " + err) })
+		//await read_ipfs_file;
+		claims.push(hardcoded_ipfs_files[i])
+	}
+	res.render(path.join(__dirname, "../public/pages/claims"), {
+		claims: claims
+	});
+	 
+		/*
 		ipfs.files.get(ipfs_file_hashes[i], function (err, files) {
 		  files.forEach((file) => {
 				var fp_copy = file.path // Idont know why I have to copy it otherwise I got undefined value as always after JSON.parse
@@ -50,5 +102,5 @@ function getIpfsData(ipfs_file_hashes, res) {
 				}
 		  })
 		})
-	}
+		*/
 }
