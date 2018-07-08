@@ -60,6 +60,7 @@ async function CreateBill(make) {
     bill.ooe = make.ooe;
     bill.claims = make.claims;
     bill.handlingFee=handlingFee.reduce((a,b) => a+b,0);
+    bill.totalAmount = totalAmount.reduce((a,b) => a+b,0);
     bill.totalOutstanding = totalAmount.reduce((a,b) => a+b,0) + handlingFee.reduce((a,b) => a+b,0);
     bill.status = 'PENDING';
     bill.dueDate = make.dueDate;
