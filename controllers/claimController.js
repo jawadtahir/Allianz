@@ -1,42 +1,43 @@
 const path = require('path');
 const driver = require('bigchaindb-driver');
-const ipfsAPI = require('ipfs-api')
-const config = app.get('config')
+const ipfsAPI = require('ipfs-api');
+const config = app.get('config');
 const ipfs = ipfsAPI('localhost', '5001');
+const axios = require('axios');
 const hardcoded_ipfs_files = [
 	{
   "claim_id" : "1",
-  "claim_date": "20.06.2018",
-  "ooe": "allianz-pl",
-  "hoe": "alliaz-de",
+  "claim_date": "2018/06/20",
+  "ooe": "PR",
+  "hoe": "DE",
   "sum_expense": "2000"
 },
 {
   "claim_id" : "2",
-  "claim_date": "21.06.2018",
-  "ooe": "allianz-sp",
-  "hoe": "alliaz-de",
+  "claim_date": "2018/06/21",
+  "ooe": "PR",
+  "hoe": "DE",
   "sum_expense": "2000"
 },
 {
   "claim_id" : "3",
-  "claim_date": "25.06.2018",
-  "ooe": "allianz-fr",
-  "hoe": "alliaz-de",
+  "claim_date": "2018/06/25",
+  "ooe": "PR",
+  "hoe": "DE",
   "sum_expense": "2000"
 },
 {
   "claim_id" : "4",
-  "claim_date": "29.06.2018",
-  "ooe": "allianz-uk",
-  "hoe": "alliaz-de",
+  "claim_date": "2018/06/29",
+  "ooe": "PR",
+  "hoe": "DE",
   "sum_expense": "2000"
 },
 {
   "claim_id" : "5",
-  "claim_date": "21.06.2018",
-  "ooe": "allianz-au",
-  "hoe": "alliaz-de",
+  "claim_date": "2018/06/21",
+  "ooe": "PR",
+  "hoe": "DE",
   "sum_expense": "2000"
 }
 ]
@@ -51,6 +52,7 @@ exports.claims_list = function(req, res) {
 };
 
 function getData(res) {
+	getOE();
 	console.log(config.bcdb_metadata_term);
 	bcdb_conn = new driver.Connection(config.ROOT_URL);
 	bcdb_conn.searchMetadata(config.bcdb_metadata_term)
@@ -103,4 +105,31 @@ async function getIpfsData(ipfs_file_hashes, res) {
 		  })
 		})
 		*/
+}
+
+function getOE (){
+	axios.get('http://localhost:3000/api/OE').then(
+		function (response) {
+			for (var i = 0; i < response.data.length; i++){
+				var OE = response.data[i];
+				console.log(OE);
+			}
+			console.log(response);
+		}
+	).catch(function(error){
+		console.log(error);
+	});
+}
+
+function putOE(){
+	var oe = new Object();
+	oe.$class = "de.tum.allianz.ics.OE";
+	oe.oeId = "PR";
+	oe.name = "Allianz Purtugal";
+	axios.post('http://localhost:3000/api/OE', oe).then(function(response)
+	{
+		console.log(response);
+	}).catch(function(error){
+		console.log(error);
+	});
 }
