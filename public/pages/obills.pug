@@ -27,21 +27,15 @@ html(lang='en')
                       th Due date
                       th Bill amount
                       th HOE
-                      th Action
+                      th Action                  
                   tbody
-                    tr.odd.gradeA
-                      td 1234
-                      td 10.03.2018
-                      td 797
-                      td.center Germany
-                      td.center
-                        button.btn.btn-primary(type='button') Authorize
-                    tr.even.gradeA
-                      td 1235
-                      td 20.03.2018
-                      td 582
-                      td.center Germany
-                      td.center
+                    each bill in bills
+                      tr.odd.gradeA
+                        td #{bill.id}
+                        td #{bill.dueDate}
+                        td #{bill.totalAmount}
+                        td #{bill.hoe.id}
+                        td.center
                         button.btn.btn-primary(type='button') Authorize
                 // /.table-responsive
               // /.panel-body
