@@ -43,13 +43,13 @@ html(lang='en')
                       th Status
                       th PDF
                   tbody
-                    each hbill in list
+                    each hbill in hbills
                       tr
-                      td #{hbill[0]}
-                      td #{hbill[1]}
-                      td #{hbill[2]}
-                      td #{hbill[3]}
-                      td #{hbill[4]}
+                      td #{hbill.billId}
+                      td #{hbill.dueDate}
+                      td #{hbill.totalAmount}
+                      td #{hbill.ooe}
+                      td #{hbill.status}
                       td
                         button.center-block(type='button' class='btn btn-' + btnType + ' btn-' + btnSize  name = 'create PDF' onclick = `createPDF(${JSON.stringify(hbill)})`)= 'Create PDF'
                 // /.table-responsive
