@@ -1,0 +1,32 @@
+doctype html  
+html(lang='en')
+    head
+    body
+        #myModal.modal.fade.in(tabindex="-1", role="dialog", aria-labelledby="myModalLabel", aria-hidden="true", style="display: none")
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        button.close(aria-hidden="true")
+                        h4#myModalLabel.modal-title
+                            | payment details
+                    .modal-body
+                        table#dataTables-bills.table.table-striped.table-bordered.table-hover(width='100%')
+                            thead
+                                tr
+                                th Bill Number
+                                th Due Date
+                                th Amount
+                                th Handling
+                                th Late penality
+                                th Total
+                            tbody
+                                //- tr.odd.gradeA
+                                //-     td nope
+                                //-     td nope
+                                //-     td nope
+                                //-     td nope
+                                //-     td nope
+                                //-     td nope
+                    .modal-footer
+                        button.btn.btn-default(type="button", onclick="closeCalcModal();") close
+                        button.btn.btn-primary(type="button", onclick="payBills();") pay
