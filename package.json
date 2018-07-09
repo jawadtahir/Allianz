@@ -27,6 +27,8 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "fs": "0.0.1-security",
     "ipfs-api": "^22.2.1",
     "jspdf": "^1.4.1",
     "pug": "^2.0.3",
