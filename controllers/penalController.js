@@ -1,4 +1,5 @@
 const path = require('path');
+const config = app.get('config');
 const BusinessNetworkConnection = require('composer-client').BusinessNetworkConnection;
 
 exports.calculate = async function (req, res) {
@@ -6,7 +7,7 @@ exports.calculate = async function (req, res) {
     data = data.body;
     data.payDate = new Date();
     const bnc = new BusinessNetworkConnection();
-    await bnc.connect("admin@allianz-network");
+    await bnc.connect(config.card_name);
     const factory = await bnc.getBusinessNetwork().getFactory();
     const serializer = await bnc.getBusinessNetwork().getSerializer();
 
