@@ -4,13 +4,13 @@ const ipfsAPI = require('ipfs-api');
 const config = app.get('config');
 const ipfs = ipfsAPI('localhost', '5001');
 const axios = require('axios');
-const hardcoded_ipfs_files = [
+var hardcoded_ipfs_files = [
 	{
   "claim_id" : "1",
   "claim_date": "2018/06/20",
   "ooe": "PR",
   "hoe": "DE",
-  "sum_expense": "2000"
+  "sum_expense": "10000"
 },
 {
   "claim_id" : "2",
@@ -24,19 +24,19 @@ const hardcoded_ipfs_files = [
   "claim_date": "2018/06/25",
   "ooe": "PR",
   "hoe": "DE",
-  "sum_expense": "2000"
+  "sum_expense": "20000"
 },
 {
   "claim_id" : "4",
   "claim_date": "2018/06/29",
-  "ooe": "PR",
+  "ooe": "SP",
   "hoe": "DE",
   "sum_expense": "2000"
 },
 {
   "claim_id" : "5",
   "claim_date": "2018/06/21",
-  "ooe": "PR",
+  "ooe": "SP",
   "hoe": "DE",
   "sum_expense": "2000"
 }
@@ -53,7 +53,6 @@ exports.claims_list = function(req, res) {
 
 function getData(res) {
 	getOE();
-	console.log(config.bcdb_metadata_term);
 	bcdb_conn = new driver.Connection(config.ROOT_URL);
 	bcdb_conn.searchMetadata(config.bcdb_metadata_term)
         .then(assets => extractFileHashesFromAssets(assets ,res));
@@ -112,9 +111,7 @@ function getOE (){
 		function (response) {
 			for (var i = 0; i < response.data.length; i++){
 				var OE = response.data[i];
-				console.log(OE);
 			}
-			console.log(response);
 		}
 	).catch(function(error){
 		console.log(error);

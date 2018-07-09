@@ -21,8 +21,7 @@ function createBill(){
             var claim = new Object();
             claim.$class = NAMESPACE+"Claim";
             claim.ClaimId = dataTable.rows[i].cells[CLAIMNO_INDEX].innerText;
-            claim.owner = RESOURCE+"OE#"+dataTable.rows[i].cells[OOE_INDEX].innerText;
-            claim.handler = RESOURCE+"OE#DE";
+            // TODO: Store hash of claim file
             claim.hash = "djfjbguorowfoiwjhfownjndgjowgb";
             claim.totalAmount = dataTable.rows[i].cells[SUMEXPENSE_INDEX].innerText;
             claimsList.push(claim);
@@ -38,6 +37,7 @@ function createBill(){
         var transactionData = new Object();
         transactionData.$class = NAMESPACE+"CreateBill";
         transactionData.ooe = RESOURCE+"OE#"+oe;
+        // TODO: Get from user
         transactionData.hoe = RESOURCE+"OE#DE";
         transactionData.billId = Math.random().toString(36).substr(2, 15);
         transactionData.claims = ooeToClaimMap[oe];
@@ -46,8 +46,8 @@ function createBill(){
         transactionData.dueDate = transactionData.dueDate.toJSON();
 
         $.post("http://localhost:3000/api/CreateBill", transactionData, function(response){
-            console.log("Inner");
             console.log(response);
+            location.reload();
         }).done(function(response){
             console.log(response);
         }).fail(function(error){
