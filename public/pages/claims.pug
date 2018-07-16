@@ -40,7 +40,7 @@ html(lang='en')
                         td #{claim.sum_expense}
                         td
                            button(type="submit",onclick="openInNewTab(" + "'" + claim.ipfs_location + "'" + ")") Show File
-                button.btn.btn-primary(type='button') Create bill
+                button.btn.btn-primary(type='button', onclick="createBill();") Create bill
                 // /.table-responsive
               // /.panel-body
             // /.panel
@@ -62,3 +62,5 @@ html(lang='en')
       responsive: true
       });
       });
+
+script(src='../../js/claims.js')

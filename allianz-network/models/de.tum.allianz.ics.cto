@@ -31,14 +31,13 @@ asset SampleAsset identified by assetId {
 }
 concept Claim  {
   o String ClaimId
-  --> OE owner
-  --> OE handler
   o String hash
   o Double totalAmount default = 0.0
 }
+@commit(false)
+@returns(Integer)
 transaction SampleTransaction {
-  --> SampleAsset asset
-  o String newValue
+  o Integer newValue
 }
 
 event SampleEvent {
@@ -49,8 +48,12 @@ event SampleEvent {
 
 concept BillConcept {
   o String BillConceptID
-  o Double penalty
-
+  o String billId
+  o Double totalAmount optional
+  o Double handlingFee optional
+  o Double latePenality 
+  o Double totalOutstanding optional
+  o DateTime dueDate optional
 }
 
 
@@ -98,7 +101,6 @@ transaction Authorize {
   --> Bill bill
   --> User user
   o DateTime authDate
-  o BillStatus status
 }
 
 transaction UpdateHFee {
@@ -106,6 +108,8 @@ transaction UpdateHFee {
   o Double newValue
 }
 
+@commit(false)
+@returns(BillConcept[])
 transaction calculatePenalty {
   o String [] billIds
   o DateTime payDate
@@ -121,7 +125,7 @@ event OnAuthorize {
 }
 
 event OnPay {
-  --> Bill bill
+  o BillConcept[] bills
 }
 
 enum BillStatus{

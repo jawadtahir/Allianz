@@ -7,6 +7,7 @@ html(lang='en')
     #wrapper
       // Navigation
       include navbar.pug
+      include modal.pug
       #page-wrapper
         .row
           .col-lg-12
@@ -20,29 +21,23 @@ html(lang='en')
                 | Unauthorized bills
               // /.panel-heading
               .panel-body
-                table#dataTables-example.table.table-striped.table-bordered.table-hover(width='100%')
+                table#dataTables-auth.table.table-striped.table-bordered.table-hover(width='100%')
                   thead
                     tr
                       th Bill #
                       th Due date
                       th Bill amount
                       th HOE
-                      th Action
+                      th Action                  
                   tbody
-                    tr.odd.gradeA
-                      td 1234
-                      td 10.03.2018
-                      td 797
-                      td.center Germany
-                      td.center
-                        button.btn.btn-primary(type='button') Authorize
-                    tr.even.gradeA
-                      td 1235
-                      td 20.03.2018
-                      td 582
-                      td.center Germany
-                      td.center
-                        button.btn.btn-primary(type='button') Authorize
+                    each auth in authList
+                      tr
+                        td #{auth.billId}
+                        td #{auth.dueDate}
+                        td #{auth.totalOutstanding}
+                        td #{auth.hoe}
+                        td
+                          buttonbtn.btn.btn-primary(type="button", onclick="onClickAuth(\'"+auth.billId+"\');") Auth
                 // /.table-responsive
               // /.panel-body
             // /.panel
@@ -54,7 +49,7 @@ html(lang='en')
                 | Authorized bills
               // /.panel-heading
               .panel-body
-                table#dataTables-example.table.table-striped.table-bordered.table-hover(width='100%')
+                table#dataTables-unauth.table.table-striped.table-bordered.table-hover(width='100%')
                   thead
                     tr
                       th Select
@@ -64,23 +59,16 @@ html(lang='en')
                       th HOE
                       th Authorized by
                   tbody
-                    tr.odd.gradeA
-                      td
-                        input(type='checkbox')
-                      td 1234
-                      td 10.03.2018
-                      td 797
-                      td.center Germany
-                      td.center User1234
-                    tr.even.gradeA
-                      td
-                        input(type='checkbox')
-                      td 1234
-                      td 10.03.2018
-                      td 797
-                      td.center Germany
-                      td.center User1234
-                button.btn.btn-primary(type='button') Pay
+                    each pending in pendingList
+                      tr
+                        td
+                          input(type='checkbox')
+                        td #{pending.billId}
+                        td #{pending.dueDate}
+                        td #{pending.totalOutstanding}
+                        td #{pending.hoe}
+                        td #{pending.authorizor}
+                button.btn.btn-primary(type='button', onclick="calculatePenality();") Pay
                 // /.table-responsive
               // /.panel-body
             // /.panel
@@ -96,3 +84,5 @@ html(lang='en')
       responsive: true
       });
       });
+
+script(src='../../js/obills.js')
