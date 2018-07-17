@@ -53,7 +53,6 @@ exports.claims_list = function(req, res) {
 };
 
 function getData(req, res) {
-	getOE();
 	bcdb_conn = new driver.Connection(config.ROOT_URL);
 	bcdb_conn.searchMetadata(config.bcdb_metadata_term)
         .then(assets => extractFileHashesFromAssets(assets, req, res));
@@ -83,6 +82,7 @@ async function getIpfsData(ipfs_file_hashes, req, res) {
 		//await read_ipfs_file;
 		claims.push(hardcoded_ipfs_files[i])
 	}
+	
 	res.render(path.join(__dirname, "../public/pages/claims"), {
 		claims: claims, 
 		user:app.get('USER')
@@ -108,27 +108,3 @@ async function getIpfsData(ipfs_file_hashes, req, res) {
 		*/
 }
 
-function getOE (){
-	axios.get('http://localhost:3000/api/OE').then(
-		function (response) {
-			for (var i = 0; i < response.data.length; i++){
-				var OE = response.data[i];
-			}
-		}
-	).catch(function(error){
-		console.log(error);
-	});
-}
-
-function putOE(){
-	var oe = new Object();
-	oe.$class = "de.tum.allianz.ics.OE";
-	oe.oeId = "PR";
-	oe.name = "Allianz Purtugal";
-	axios.post('http://localhost:3000/api/OE', oe).then(function(response)
-	{
-		console.log(response);
-	}).catch(function(error){
-		console.log(error);
-	});
-}

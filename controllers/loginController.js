@@ -4,7 +4,6 @@ var bodyParser = require('body-parser');
 
 exports.get_login_page = function(req, res) {
 	res.render(path.join(__dirname, "../public/pages/login"));
-	res.sendFile(__dirname + '/public/pages/login');
 };
 
 exports.login_request= function(req, res) {
@@ -34,10 +33,9 @@ async function create_session_with_user_credentials(id, req, res) {
 	{
 		req.session.user=response.data;
 		req.session.user.oe=req.session.user.oe.split("#")[1];
-		console.log(req.session.user);
 		app.set('USER', req.session.user);
-		res.render(path.join(__dirname, "../public/pages/index"),{user: req.session.user});
 
+		res.redirect("/ics/");
 	}).catch(function(error) {
 		console.log(error);
 	});

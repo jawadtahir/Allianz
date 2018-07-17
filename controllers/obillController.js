@@ -12,35 +12,41 @@ exports.obills = async function (req, res) {
     getBills(authList, pendingList, req, res);
 };
 
-function getBills(authList, pendingList, req, res){
-    var filter = createFilter(app.get("USER").oe);
-    axios.get(BILL_API_ENDPOINT+filter).then(
-        function (response){
-            for (var i = 0; i < response.data.length; i++){
+function getBills(authList, pendingList, req, res) {
+    var filter = createFilter(app.get("USER"));
+    if (filter != undefined) {
+        axios.get(BILL_API_ENDPOINT + filter).then(function (response) {
+            for (var i = 0; i < response.data.length; i++) {
                 var bill = response.data[i];
                 bill.hoe = bill.hoe.split("#")[1];
                 bill.dueDate = new Date(bill.dueDate).toLocaleDateString();
-                if (bill.authorizor == undefined){
+                if (bill.authorizor == undefined) {
                     bill.authorizor = "";
-                }else{
+                } else {
                     bill.authorizor = bill.authorizor.split("#")[1];
                 }
-                if (bill.status == "PENDING"){
+                if (bill.status == "PENDING") {
                     pendingList.push(bill);
-                }else{
+                } else {
                     authList.push(bill);
                 }
             }
-            res.render(path.join(__dirname, "../public/pages/obills"),{
+            res.render(path.join(__dirname, "../public/pages/obills"), {
                 authList: authList,
                 pendingList: pendingList,
                 user: app.get("USER")
             });
+            
         });
+    }
+    
+
 }
 
-function createFilter(oe){
-    return FILTER.replace("#OE#", oe);
+function createFilter(oe) {
+    if (oe != undefined){
+        return FILTER.replace("#OE#", oe.oe);
+    } else{
+        return undefined;
+    }
 }
-
-function getAuthList(){}
