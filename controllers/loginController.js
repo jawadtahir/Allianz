@@ -8,6 +8,7 @@ exports.get_login_page = function(req, res) {
 };
 
 exports.login_request= function(req, res) {
+
 	axios.get('http://localhost:3000/api/system/identities').then(function(response)
 	{
 		for(var i=0; i < response.data.length; i++) {
@@ -15,6 +16,7 @@ exports.login_request= function(req, res) {
 			if(req.body.username == response.data[i].name) {
 				
 				var id = response.data[i].participant.split('#')[1];
+
 				create_session_with_user_credentials(id, req, res)
 				break;
 			}
@@ -26,6 +28,7 @@ exports.login_request= function(req, res) {
 
 
 
+
 async function create_session_with_user_credentials(id, req, res) {
 	axios.get('http://localhost:3000/api/User/'+id).then(function(response)
 	{
@@ -34,6 +37,7 @@ async function create_session_with_user_credentials(id, req, res) {
 		console.log(req.session.user);
 		app.set('USER', req.session.user);
 		res.render(path.join(__dirname, "../public/pages/index"),{user: req.session.user});
+
 	}).catch(function(error) {
 		console.log(error);
 	});
