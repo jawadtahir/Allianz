@@ -38,11 +38,9 @@ var hbill_controller = require('../controllers/hbillController');
 var obill_controller = require('../controllers/obillController');
 var penal_controller = require('../controllers/penalController');
 var login_controller = require('../controllers/loginController');
+var dashboard_controller = require('../controllers/dashboardController');
 
-routerics.get('/', sessionChecker, function(req, res){
-    console.log("Hello!");
-    res.render(path.join(__dirname, "../public/pages/index"), {user:app.get('USER')});
-})
+routerics.get('/', sessionChecker, dashboard_controller.get_dashboard_data);
 
 routerics.get('/login', login_controller.get_login_page);
 
