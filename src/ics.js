@@ -29,7 +29,7 @@ var sessionChecker = (req, res, next) => {
     if (!req.session.user || !req.cookies.user_sid) {
         res.render(path.join(__dirname, "../public/pages/login"));
     }  
-    else next();
+    next();
 };
 
 //config = require('./config');
