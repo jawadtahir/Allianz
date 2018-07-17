@@ -37,8 +37,7 @@ function createBill(){
         var transactionData = new Object();
         transactionData.$class = NAMESPACE+"CreateBill";
         transactionData.ooe = RESOURCE+"OE#"+oe;
-        // TODO: Get from user
-        transactionData.hoe = RESOURCE+"OE#DE";
+        transactionData.hoe = RESOURCE+"OE#"+USER.userOe;
         transactionData.billId = Math.random().toString(36).substr(2, 15);
         transactionData.claims = ooeToClaimMap[oe];
         transactionData.dueDate = new Date();

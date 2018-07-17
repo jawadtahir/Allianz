@@ -3,8 +3,10 @@
  * Copyright 2013-2018 Jawad Tahir
  * Licensed under  ()
  */
+var USER;
 $(function() {
     $('#side-menu').metisMenu();
+    
 });
 
 //Loads the correct sidebar on window load,
@@ -29,6 +31,14 @@ $(function() {
         }
     });
 
+    function getUser(){
+        USER = new Object();
+        USER.userId = $('#userId').text();
+        USER.userOe = $('#userOe').text();
+        USER.name = $('#userName').text();
+        USER.role = $('#userRole').text();
+    }
+
     var url = window.location;
     // var element = $('ul.nav a').filter(function() {
     //     return this.href == url;
@@ -44,4 +54,6 @@ $(function() {
             break;
         }
     }
+
+    getUser();
 });
