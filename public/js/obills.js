@@ -17,10 +17,7 @@ function calculatePenality(){
             billIds.push(dataTable.rows[i].cells[ID_UNAUTH_INDEX].innerText);
         }
     }
-    // TODO: Uncomment it
     tranData.billIds = billIds;
-    // TODO: Comment it
-    //tranData.billIds = ["234"];
     $.post("/ics/calc", tranData, function(reponse){
         console.log(reponse);
         $("#myModal").css({display: "block"});
@@ -76,8 +73,7 @@ function onClickAuth(billId){
     var authTranData = new Object();
     authTranData.$class = NAMESPACE+"Authorize";
     authTranData.bill = RESOURCE+"Bill#"+billId;
-    // TODO: hardcoded. will get from loged in user
-    authTranData.user = RESOURCE+"User#"+"auth";
+    authTranData.user = RESOURCE+"User#"+USER.userId;
     authTranData.authDate = new Date().toJSON();
 
     $.post('http://localhost:3000/api/Authorize', authTranData, function(response){
