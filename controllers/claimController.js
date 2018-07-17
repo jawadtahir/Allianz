@@ -47,31 +47,30 @@ exports.claims_list = function(req, res) {
 	bcdb_conn = new driver.Connection(config.ROOT_URL);
 	//Passing Res as a parameter is a crazy-hack, however I couldn't load all claims before launching page :/
 	//Tried with await etc, but everytime failed about getting & parsing Data from IPFS.
-	getData(res);
+	getData(req, res);
 	//res.render(path.join(__dirname, "../public/pages/claims"));
-	console.log(req.session.user)
 };
 
-function getData(res) {
+function getData(req, res) {
 	getOE();
 	bcdb_conn = new driver.Connection(config.ROOT_URL);
 	bcdb_conn.searchMetadata(config.bcdb_metadata_term)
-        .then(assets => extractFileHashesFromAssets(assets ,res));
+        .then(assets => extractFileHashesFromAssets(assets, req, res));
 }
 
-async function extractFileHashesFromAssets(assets_arr, res) {
+async function extractFileHashesFromAssets(assets_arr, req, res) {
 	var file_hashes = [];
 	for(var i=0; i < assets_arr.length; i++) {
 		let get_ipfs = bcdb_conn.getTransaction(assets_arr[i].id)
 			.then(transaction => file_hashes.push(transaction.asset.data.ipfs_file_hash));
 		await get_ipfs;
 	}
-	getIpfsData(file_hashes, res)
+	getIpfsData(file_hashes, req, res)
 }
 
 //I know its totaly agains async nature of Node.js, but couldn't find a better way and also don't want to block anyone.
 //Lets use as that, but if I find a better way I will upload that definetly.
-async function getIpfsData(ipfs_file_hashes, res) {
+async function getIpfsData(ipfs_file_hashes, req, res) {
 	var claims = [];
 	var num_of_files = ipfs_file_hashes.length;
 	for(var i=0; i< ipfs_file_hashes.length; i++) {
@@ -84,7 +83,8 @@ async function getIpfsData(ipfs_file_hashes, res) {
 		claims.push(hardcoded_ipfs_files[i])
 	}
 	res.render(path.join(__dirname, "../public/pages/claims"), {
-		claims: claims
+		claims: claims, 
+		user:app.get('USER')
 	});
 	 
 		/*

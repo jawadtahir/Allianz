@@ -7,6 +7,11 @@ nav.navbar.navbar-default.navbar-static-top(role='navigation', style='margin-bot
       span.icon-bar
     a.navbar-brand(href='/ics/') Allianz ICS
   // /.navbar-header
+  div.hidden
+    label#userId(for="user") #{user.userId}
+    label#userName(for="user") #{user.name}
+    label#userRole(for="user") #{user.role}
+    label#userOe(for="user") #{user.oe}
   ul.nav.navbar-top-links.navbar-right
     li.dropdown
       a.dropdown-toggle(data-toggle='dropdown', href='#')
