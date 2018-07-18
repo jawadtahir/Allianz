@@ -11,8 +11,8 @@ Clone the repo.
 Go to ```/src/config.js```  
 Run your local BCDB Instance  
 Check if it has data ```./test.bcdb.py```  
-Populate it with data if it is empty ```./populate_bcdp.py```  
-Run your IPFS Daemon(NOT REQUIRED IF YOU HAVE PATCH)  
+Populate it with data if it is empty ```node populate_bcdb.js```  !!!! NOT PYTHON SCRIPT ANYMORE !!!!  
+Run your IPFS Daemon(Not Required if src/config.js dev_mode: true,)  
 npm install  
 npm start  
 
@@ -21,6 +21,7 @@ go port 30001
 - We have already 5 different claims in BCDB and IPFS. You don't need to upload a file/insert something to BCDB to test it.  
 - If you cannot see any claims while testing, please look at ```Populate and Test Big Chain Database``` section.  
 - To be able to run an ipfs daemon, you should install it first. Please look at ```Install IPFS`` section.  
+- To avoid any inconsistency problem, WAIT AFTER CREATING A BILL for 4 seconds before clicking any other tab.  
 
 ## Add Dummy Users to Hyperledger Blockchain ##
 You need to add some dummy users to hyperledger blockchain and then create participants from them, to use login/logout functionality.  
@@ -34,12 +35,11 @@ After STARTING network, use ```composer-playground``` command to start playgroun
 - Click on ```Issue new Id```, write French as ```Id name``` and select ```FR1``` as participant. Click Create-New and add it to your wallet.   
 
 Now you can login with using ```German``` or ```French``` string on ```localhost:30001/ics/login``` page.  
+
 ## Using Session Cookies ##
 When npm start the Allianz project first opens login page and you should enter the name of the User Participant e.g: German if you used 
 ```usersandoes/germanuser.json``` and session cookie can be used in any other page by getting it using ```req.session.user``` in each controller javascript. e.g:```claimController``` it prints user details. For testing you can use cookie manager add-on for browser and can
 delete the cookie and see if redirects or not. Also, you can use logout button on the top bar where user icon sits.
-
-!!!TODO bills should show according to session user and also bill should be generated using session user.
 
 ## How to Run Local BCDB instance ##
 ```git clone https://github.com/bigchaindb/bigchaindb```  
@@ -50,7 +50,7 @@ delete the cookie and see if redirects or not. Also, you can use logout button o
 
 ## Populate and Test Big Chain Database ##
 If you cannot see any claims in ```/claims``` page then please follow these instructions:  
-In this repo, there are two python scripts for bigchain.db 	
+In this repo, there is one python script for testing, and one javascript file for populating 	
 To use them first install bigchaindb-driver for python3  
 ```
 pip3 install -U bigchaindb-driver
@@ -59,7 +59,7 @@ or if you want to use python2.x
 ```
 pip install -U bigchaindb-driver
 ```
-First run ```populate_bcdp.py``` and populate your bigchaindb, and then run ```test_bcdp.py``` to retrieve results  
+First run ```node populate_bcdb.js``` and populate your bigchaindb, and then run ```test_bcdp.py``` to retrieve results  
 
 ## Install IPFS ##
 To be able to run ```ipfs daemon``` that required for testing. First you must install ipfs to your system. Please follow these steps to install it:  
@@ -78,6 +78,14 @@ To be able to add file to IPFS, first install IPFS and then follow these instruc
 - Start Daemon with ```ipfs daemon```  
 - ```npm install && npm start```  
 - Go to your web browser(http://localhost:3000), add your file  
+
+## After creating bills , I cannot see any claim, What should I do?????? ##
+
+Since we don't want that, users cannot create bills from SAME claim more than once, we change their metadata at BCDB after bill creation.  
+However in ```dev``` mode, since we don't have ipfs we use a very simple json file to keep track of bill created/not-created files.  
+check ```controllers/hardcoded_files.json```. Then set ```"created":``` values to ```true```. After that you can be able to see claims again.  
+Actually in production, (which we use ipfs), it much more complicated, and you have to add new ipfs files to system, with right metadata's to see them.  
+I will explain all steps in meeting, and then we can update documentation together.
 
 ## Documentations ##
 
