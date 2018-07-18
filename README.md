@@ -109,3 +109,6 @@ I will explain all steps in meeting, and then we can update documentation togeth
 ### How to get a pull request and work on top of it ###
 - ```git fetch upstream pull/{pull-request-id}/head:{pull-request-owners-branch-name}  ```
 
+### Configuration required to enable History ###
+Modify ```./fabric-tool/fabric-scripts/hlfv1/composer/docker-compose.yaml``` in ```composer``` to have ```- CORE_LEDGER_HISTORY_ENABLEHISTORYDATABASE=true``` setting in environmt of peer 0
+
