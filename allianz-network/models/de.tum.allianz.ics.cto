@@ -115,6 +115,12 @@ transaction calculatePenalty {
   o DateTime payDate
 }
 
+@commit(false)
+@returns(String)
+transaction getHistroy {
+  o String billId
+}
+
 transaction UpdateAmount {
   --> Bill bill
   o Double newValue
