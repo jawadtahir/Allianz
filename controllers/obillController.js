@@ -34,7 +34,6 @@ function getBills(authList, pendingList, req, res) {
             res.render(path.join(__dirname, "../public/pages/obills"), {
                 authList: authList,
                 pendingList: pendingList,
-                req:req,
                 user: app.get("USER")
             });
             
