@@ -18,10 +18,10 @@ npm start
 
 go port 30001  
 
-- We have already 5 different claims in BCDB and IPFS. You don't need to upload a file/insert something to BCDB to test it.  
-- If you cannot see any claims while testing, please look at ```Populate and Test Big Chain Database``` section.  
-- To be able to run an ipfs daemon, you should install it first. Please look at ```Install IPFS`` section.  
-- To avoid any inconsistency problem, WAIT AFTER CREATING A BILL for 4 seconds before clicking any other tab.  
+- We have already 7 different claims in IPFS Network. You don't need to upload a file/insert something to IPFS before testing.  
+- If you cannot see any claims while testing, please look at ```Populate and Test Big Chain Database``` or ```After creating bills , I cannot see any claim, What should I do?``` section.  
+- To be able to run an ipfs daemon, you should install it first. Please look at ```Install IPFS``` section.  
+- To avoid any inconsistency problem, WAIT AFTER CREATING A BILL for 3 seconds before clicking any other tab.  
 
 ## Add Dummy Users to Hyperledger Blockchain ##
 You need to add some dummy users to hyperledger blockchain and then create participants from them, to use login/logout functionality.  
@@ -79,8 +79,9 @@ To be able to add file to IPFS, first install IPFS and then follow these instruc
 - Start Daemon with ```ipfs daemon```  
 - ```npm install && npm start```  
 - Go to your web browser(http://localhost:3000), add your file  
+If you are running ```hyperldedger-playground```, then you have to first close it, since they are using same ports.  
 
-## After creating bills , I cannot see any claim, What should I do?????? ##
+## After creating bills , I cannot see any claim, What should I do? ##
 
 Since we don't want that, users cannot create bills from SAME claim more than once, we change their metadata at BCDB after bill creation.  
 However in ```dev``` mode, since we don't have ipfs we use a very simple json file to keep track of bill created/not-created files.  
@@ -106,4 +107,5 @@ I will explain all steps in meeting, and then we can update documentation togeth
 - ```git merge upstream/master```  
 
 ### How to get a pull request and work on top of it ###
-- ```git fetch upstream pull/{pull-request-id}/head:{pull-request-owners-branch-name}  
+- ```git fetch upstream pull/{pull-request-id}/head:{pull-request-owners-branch-name}  ```
+
