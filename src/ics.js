@@ -45,8 +45,10 @@ routerics.get('/', sessionChecker, dashboard_controller.get_dashboard_data);
 routerics.get('/login', login_controller.get_login_page);
 
 routerics.post('/login', login_controller.login_request);
-
+// To calculate late penality
 routerics.post('/calc', penal_controller.calculate);
+// To show bill history
+routerics.get('/billhist/:billid', penal_controller.billhist);
 
 routerics.get('/claims', sessionChecker, claim_controller.claims_list);
 

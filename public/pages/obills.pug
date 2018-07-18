@@ -32,7 +32,9 @@ html(lang='en')
                   tbody
                     each auth in authList
                       tr
-                        td #{auth.billId}
+                        td
+                          - var url = auth.billId
+                          a(href="/ics/billhist/"+url)  #{auth.billId}
                         td #{auth.dueDate}
                         td #{auth.totalOutstanding}
                         td #{auth.hoe}
@@ -63,7 +65,9 @@ html(lang='en')
                       tr
                         td
                           input(type='checkbox')
-                        td #{pending.billId}
+                        td
+                          - var url = pending.billId
+                          a(href="/ics/billhist/"+url) #{pending.billId}
                         td #{pending.dueDate}
                         td #{pending.totalOutstanding}
                         td #{pending.hoe}

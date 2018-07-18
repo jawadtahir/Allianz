@@ -45,7 +45,9 @@ html(lang='en')
                   tbody
                     each hbill in hbills
                       tr
-                      td #{hbill.billId}
+                      td
+                        - var url = hbill.billId
+                        a(href="/ics/billhist/"+url)   #{hbill.billId}
                       td #{hbill.dueDate}
                       td #{hbill.totalAmount}
                       td #{hbill.ooe}

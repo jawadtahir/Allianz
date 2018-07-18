@@ -3,7 +3,7 @@
     "composer": "^0.19.9"
   },
   "name": "allianz-network",
-  "version": "0.0.16",
+  "version": "0.0.28",
   "description": "Allianz network",
   "scripts": {
     "prepublish": "mkdirp ./dist && composer archive create --sourceType dir --sourceName . -a ./dist/allianz-network.bna",

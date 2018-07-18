@@ -1,0 +1,60 @@
+doctype html
+html(lang='en')
+  head
+    include header_with_charts.pug
+    title Allianz ICS system
+  body
+    #wrapper
+      // Navigation
+      include navbar.pug
+      #page-wrapper
+        .row
+          .col-lg-12
+            h1.page-header Bill history
+          // /.col-lg-12
+        // /.row
+        .row
+          .col-lg-12
+            .panel.panel-default
+              .panel.panel-default
+                .panel-heading
+                  i.fa.fa-clock-o.fa-fw
+                  |  Responsive Timeline
+                // /.panel-heading
+                .panel-body
+                  ul.timeline
+                    each bill, index in bills
+                      case index%2
+                        when 0
+                          li.timeline
+                            .timeline-badge.warning
+                              i.fa.fa-tasks
+                            .timeline-panel
+                              .timeline-heading
+                                h4.timeline-title Bill # #{bill.billId}                            
+                              .timeline-body
+                                p Status #{bill.status}
+                                p Due Date #{bill.dueDate}
+                                p Outstanding #{bill.totalOutstanding}
+                        when 1
+                          li.timeline-inverted
+                            .timeline-badge.warning
+                              i.fa.fa-tasks
+                            .timeline-panel
+                              .timeline-heading
+                                h4.timeline-title Bill # #{bill.billId}                            
+                              .timeline-body
+                                p Status #{bill.status}
+                                p Due Date #{bill.dueDate}
+                                p Outstanding #{bill.totalOutstanding}
+                // /.row
+              // /.panel-body
+            // /.panel
+            // /.panel
+          // /.col-lg-8
+          // /.col-lg-4
+        // /.row
+      // /#page-wrapper
+    // /#wrapper
+    // jQuery
+    include scripts_with_charts.pug
