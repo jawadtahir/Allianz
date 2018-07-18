@@ -35,7 +35,7 @@ After STARTING network, use ```composer-playground``` command to start playgroun
 - Click on ```Issue new Id```, write French as ```Id name``` and select ```FR1``` as participant. Click Create-New and add it to your wallet.   
 
 Now you can login with using ```German``` or ```French``` as username and their identity ids as password from ```localhost:30001/ics/login``` page.  
-You can find identity ids from ```http://localhost:3000/explorer/#!/System/System_getAllIdentities````  
+You can find identity ids from ```http://localhost:3000/explorer/#!/System/System_getAllIdentities```  
 
 ## Using Session Cookies ##
 When npm start the Allianz project first opens login page and you should enter the name of the User Participant e.g: German if you used 
