@@ -8,7 +8,7 @@ from bigchaindb_driver import BigchainDB
 bdb_root_url= 'http://localhost:9984/'
 bdb = BigchainDB(bdb_root_url)
 print("Results --------");
-claims_list = bdb.metadata.get(search='ipfs');
+claims_list = bdb.metadata.get(search='status');
 for claim in claims_list:
 	print("-----");
 	print(claim['id']);

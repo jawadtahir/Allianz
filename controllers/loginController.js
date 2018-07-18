@@ -7,7 +7,7 @@ exports.get_login_page = function(req, res) {
 };
 
 exports.login_request= function(req, res) {
-
+	
 	axios.get('http://localhost:3000/api/system/identities').then(function(response)
 	{
 		for(var i=0; i < response.data.length; i++) {

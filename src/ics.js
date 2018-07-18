@@ -53,6 +53,7 @@ routerics.get('/billhist/:billid', penal_controller.billhist);
 
 routerics.get('/claims', sessionChecker, claim_controller.claims_list);
 
+routerics.post('/claims',claim_controller.update_claims);
 
 routerics.get('/obills', sessionChecker, obill_controller.obills);
 
