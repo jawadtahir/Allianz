@@ -49,6 +49,7 @@ exports.claims_list = function(req, res) {
 	//Tried with await etc, but everytime failed about getting & parsing Data from IPFS.
 	getData(req, res);
 	//res.render(path.join(__dirname, "../public/pages/claims"));
+	console.log(req.session.user)
 };
 
 function getData(req, res) {

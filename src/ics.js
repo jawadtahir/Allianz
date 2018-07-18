@@ -25,6 +25,7 @@ app.use((req, res, next) => {
     next();
 });
 
+
 var sessionChecker = (req, res, next) => {
     if (!req.session.user || !req.cookies.user_sid) {
         res.render(path.join(__dirname, "../public/pages/login"));
@@ -52,12 +53,14 @@ routerics.get('/billhist/:billid', penal_controller.billhist);
 
 routerics.get('/claims', sessionChecker, claim_controller.claims_list);
 
+
 routerics.get('/obills', sessionChecker, obill_controller.obills);
 
 routerics.get('/hbills', sessionChecker, hbill_controller.OEhbillList);
 
 routerics.get('/logout', function (req, res) {
     app.set('USER', new Object());
+
     if (req.session.user && req.cookies.user_sid) {
         res.clearCookie('user_sid');
         res.render(path.join(__dirname, "../public/pages/login"));

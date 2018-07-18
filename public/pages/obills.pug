@@ -39,7 +39,10 @@ html(lang='en')
                         td #{auth.totalOutstanding}
                         td #{auth.hoe}
                         td
-                          buttonbtn.btn.btn-primary(type="button", onclick="onClickAuth(\'"+auth.billId+"\');") Auth
+                          if (req.session.user.role == "USER")
+                            buttonbtn.btn.btn-primary(type="button" ,class="btn btn-primary disabled") Auth
+                          else
+                            buttonbtn.btn.btn-primary(type="button" , onclick="onClickAuth(\'"+auth.billId+"\');") Auth
                 // /.table-responsive
               // /.panel-body
             // /.panel
