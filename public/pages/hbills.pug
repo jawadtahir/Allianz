@@ -1,17 +1,6 @@
 doctype html
 html(lang='en')
   head
-    -var i = 0
-    -var list = [['1234', '10.03.2018', '797','Spain', 'Pending'],['1235','20.03.2018', '582', 'Portugal', 'Settled']]
-    script(src= 'https://unpkg.com/jspdf@latest/dist/jspdf.min.js')
-    script.
-        var createPDF = function (hbill) {
-            var doc = new jsPDF();
-            console.log(hbill)
-            doc.text('Hello world!',10,10);
-            // doc.save('a4.pdf')
-        }
-
     - var btnType = 'info'
     - var btnSize = 'sm'
     include header_with_tables.pug
@@ -37,23 +26,22 @@ html(lang='en')
                   thead
                     tr
                       th Bill #
-                      th Due date
-                      th Bill amount
+                      th Due Date
+                      th Total Amount
                       th OOE
                       th Status
-                      th PDF
+                      th Details
                   tbody
                     each hbill in hbills
+                      -var id = hbill.billId
                       tr
-                      td
-                        - var url = hbill.billId
-                        a(href="/ics/billhist/"+url)   #{hbill.billId}
+                      td #{hbill.billId}
                       td #{hbill.dueDate}
                       td #{hbill.totalAmount}
                       td #{hbill.ooe}
                       td #{hbill.status}
                       td
-                        button.center-block(type='button' class='btn btn-' + btnType + ' btn-' + btnSize  name = 'create PDF' onclick = `createPDF(${JSON.stringify(hbill)})`)= 'Create PDF'
+                        a(class='btn btn-' + btnType + ' btn-' + btnSize href='http://localhost:30001/ics/hbillhist/'+ id) View Details
                 // /.table-responsive
               // /.panel-body
             // /.panel
