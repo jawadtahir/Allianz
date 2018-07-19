@@ -76,13 +76,13 @@ html(lang='en')
                           input(type='checkbox')
                         td
                           - var url = pending.billId
-                          a(href="/ics/obillhist/"+url) #{pending.billId}
+                          a(href="/ics/billhist/"+url) #{pending.billId}
                         td #{pending.dueDate}
                         td #{pending.totalOutstanding}
                         td #{pending.hoe}
                         td #{pending.authorizor}
                         td
-                           a(class='btn btn-' + btnType + ' btn-' + btnSize href='http://localhost:30001/ics/obillhist/'+ url) View Details
+                           a(class='btn btn-' + btnType + ' btn-' + btnSize href='/ics/billhist/'+ url) View Details
                 button.btn.btn-primary(type='button', onclick="calculatePenality();") Pay
                 // /.table-responsive
               // /.panel-body

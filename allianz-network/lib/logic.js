@@ -151,11 +151,21 @@ async function calculatePenalty(tx) {
         concept.billId = bill.billId;
         concept.totalAmount = bill.totalAmount;
         concept.handlingFee = bill.handlingFee;
+        console.log("****************************");
+        console.log(todayDate);
+        console.log(bill.dueDate);
+        console.log();
+        console.log(bill.dueDate < todayDate);
+        
+        
+        
         if (bill.dueDate < todayDate) {
             concept.latePenality = (bill.totalOutstanding * (12 / 100));
         } else {
             concept.latePenality = 0;
         }
+        console.log(concept.latePenality);
+        
         concept.totalOutstanding = bill.totalOutstanding + concept.latePenality;
         concept.dueDate = bill.dueDate;
         billObjs.push(concept);

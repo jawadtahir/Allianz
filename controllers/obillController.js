@@ -50,7 +50,7 @@ exports.editBill = function editBill(req, res) {
             var transactionData = new Object();
             transactionData.$class = NAMESPACE + 'Bill';
             transactionData.ooe = bill.ooe;
-            transactionData.hoe = bill.hoe;
+            transactionData.hoe = req.body.hoe;
             transactionData.billId = bill.billId;
             transactionData.claims = bill.claims;
             transactionData.status = bill.status;
@@ -60,7 +60,7 @@ exports.editBill = function editBill(req, res) {
             transactionData.totalOutstanding = (parseFloat(bill.totalOutstanding) - parseFloat(bill.handlingFee)).toString();
             var temp = transactionData.dueDate.split('/');
             var year = temp[2];
-            var month = temp[0];
+            var month = temp[0]-1;
             var day = temp[1];
             transactionData.dueDate = new Date(parseInt(year), parseInt(month), parseInt(day), 23, 59, 59);
             transactionData.handlingFee = req.body.handlingFee;
@@ -81,7 +81,7 @@ exports.editBill = function editBill(req, res) {
                 //location.reload(); @Jawad I commented it, since it breaks element-hiding, but if neccessary i can uncomment it again and find another way to fix it.
                 res.redirect("/ics/obills");
             }).catch(function(error){
-                res.redirect("/ics/obillhist/"+bill.billId.toString());
+                res.redirect("/ics/billhist/"+bill.billId.toString());
             });
     });
 
