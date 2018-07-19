@@ -36,6 +36,7 @@ var sessionChecker = (req, res, next) => {
 //config = require('./config');
 var claim_controller = require('../controllers/claimController');
 var hbill_controller = require('../controllers/hbillController');
+var hbillDetails_controller = require('../controllers/hbillDetailsController');
 var obill_controller = require('../controllers/obillController');
 var penal_controller = require('../controllers/penalController');
 var login_controller = require('../controllers/loginController');
@@ -49,7 +50,9 @@ routerics.post('/login', login_controller.login_request);
 // To calculate late penality
 routerics.post('/calc', penal_controller.calculate);
 // To show bill history
-routerics.get('/billhist/:billid', penal_controller.billhist);
+routerics.get('/obillhist/:billid', penal_controller.obillhist);
+routerics.get('/hbillhist/:billid', penal_controller.hbillhist);
+routerics.post('/edit_bill/:id', obill_controller.editBill );
 
 routerics.get('/claims', sessionChecker, claim_controller.claims_list);
 
@@ -58,7 +61,7 @@ routerics.post('/claims',claim_controller.update_claims);
 routerics.get('/obills', sessionChecker, obill_controller.obills);
 
 routerics.get('/hbills', sessionChecker, hbill_controller.OEhbillList);
-
+routerics.get('/hbill/:id', sessionChecker, hbillDetails_controller.OEhbillList1);
 routerics.get('/logout', function (req, res) {
     app.set('USER', new Object());
 

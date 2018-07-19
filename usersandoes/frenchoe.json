@@ -1,5 +1,6 @@
 {
   "$class": "de.tum.allianz.ics.OE",
   "oeId": "FR",
-  "name": "FranceOE"
+  "name": "FranceOE",
+  "IBAN": "FR75 6724 1100 5376 1763 43"
 }

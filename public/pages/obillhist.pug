@@ -10,9 +10,35 @@ html(lang='en')
       #page-wrapper
         .row
           .col-lg-12
-            h1.page-header Bill history
+            h1.page-header Owing Bill Details
           // /.col-lg-12
         // /.row
+        .row
+          .col-lg-12
+            form(action="http://localhost:30001/ics/edit_bill/"+ obill.billId.toString() method="POST")
+              .row
+              p Bill ID: #{obill.billId}
+              .row
+              p Total Amount: #{obill.totalAmount}
+              .row
+              p HOE: #{obill.hoe}
+              .row
+              p Status: #{obill.status}
+              .row
+              .col-4
+                p Due Date:
+              .col-4
+                input#datepicker(type="text" name="dueDate" placeholder="date")
+              .row
+              .col-4
+                p Handling Fee:
+              .col-4
+                input(type="text" name="handlingFee" placeholder="handling fee")
+              .row
+              input(type="submit")
+        .row
+          .col-lg-12
+            h1.page-header Bill History
         .row
           .col-lg-12
             .panel.panel-default
@@ -60,3 +86,9 @@ html(lang='en')
     // /#wrapper
     // jQuery
     include scripts_with_charts.pug
+    script.
+      $(document).ready(function () {
+          $( function() {
+              $( "#datepicker" ).datepicker();
+          } );
+      });

@@ -76,6 +76,7 @@ asset Bill identified by billId {
 participant OE identified by oeId {
   o String oeId
   o String name
+  o String IBAN
 }
 
 participant User identified by userId {
