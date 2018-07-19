@@ -44,15 +44,14 @@ function createBill(){
         transactionData.dueDate = new Date();
         transactionData.dueDate.setMonth(transactionData.dueDate.getMonth() + 2);
         transactionData.dueDate = transactionData.dueDate.toJSON();
-		//console.log(transactionData)
         $.post("http://localhost:3000/api/CreateBill", transactionData, function(response){
             //location.reload(); @Jawad I commented it, since it breaks element-hiding, but if neccessary i can uncomment it again and find another way to fix it.
         }).done(function(response){
-            //console.log(response)
-			updateBCDB(transactionData); //Update only if result is done
+			//updateBCDB(transactionData); //If we call it in here it may create a race condition(this loop may update transactionData before, we send it)
         }).fail(function(error){
 
         });
+		updateBCDB(transactionData);
 
     }
 }
