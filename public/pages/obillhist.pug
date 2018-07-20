@@ -15,40 +15,41 @@ html(lang='en')
         // /.row
         .row
           .col-lg-12
-            form(action="/ics/edit_bill/"+ obill.billId.toString() method="POST")
-              .form-group
-                .row
-                  .col-md-6
-                    .form-inline
-                      label Bill ID: 
-                      input.pull-right.form-control(type="text" name="billId" value=obill.billId readonly="true")
-                  .col-md-6
-                    .form-inline
-                      label Total Amount: 
-                      input.pull-right.form-control(type="text" name="amount" value=obill.totalAmount readonly="true")
+            if locals.obill
+              form(action="/ics/edit_bill/"+ obill.billId.toString() method="POST")
+                .form-group
+                  .row
+                    .col-md-6
+                      .form-inline
+                        label Bill ID: 
+                        input.pull-right.form-control(type="text" name="billId" value=obill.billId readonly="true")
+                    .col-md-6
+                      .form-inline
+                        label Total Amount: 
+                        input.pull-right.form-control(type="text" name="amount" value=obill.totalAmount readonly="true")
                     
-                .row
-                  .col-md-6
-                    .form-inline
-                      label HOE: 
-                      input.pull-right.form-control(type="text" name="hoe" value=obill.hoe)
-                  .col-md-6
-                    .form-inline
-                      label Status: 
-                      input.pull-right.form-control(type="text" name="status" value=obill.status readonly="true")
+                  .row
+                    .col-md-6
+                      .form-inline
+                        label HOE: 
+                        input.pull-right.form-control(type="text" name="hoe" value=obill.hoe)
+                    .col-md-6
+                      .form-inline
+                        label Status: 
+                        input.pull-right.form-control(type="text" name="status" value=obill.status readonly="true")
                     
+                  .row
+                    .col-md-6
+                      .form-inline
+                        label Due Date:
+                        input#datepicker.pull-right.form-control(type="text" name="dueDate" placeholder="date" value=obill.dueDate)
+                    .col-md-6
+                      .form-inline
+                        label Handling Fee:
+                        input.pull-right.form-control(type="text" name="handlingFee" placeholder="handling fee" value=obill.handlingFee)
                 .row
-                  .col-md-6
-                    .form-inline
-                      label Due Date:
-                      input#datepicker.pull-right.form-control(type="text" name="dueDate" placeholder="date" value=obill.dueDate)
-                  .col-md-6
-                    .form-inline
-                      label Handling Fee:
-                      input.pull-right.form-control(type="text" name="handlingFee" placeholder="handling fee" value=obill.handlingFee)
-              .row
-                input.pull-left.btn.btn-default(type="submit" value="Update")
-                input.pull-right.btn.btn-primary(type="button" value="Print" onclick=`createPDF(${JSON.stringify(obill)},${JSON.stringify(QRCode)},
+                  input.pull-left.btn.btn-default(type="submit" value="Update")
+                  input.pull-right.btn.btn-primary(type="button" value="Print" onclick=`createPDF(${JSON.stringify(obill)},${JSON.stringify(QRCode)},
                       ${JSON.stringify(user)},${JSON.stringify(ooeIban)})`)
         .row
           .col-lg-12
@@ -73,12 +74,14 @@ html(lang='en')
                               .timeline-heading.panel.panel-green
                                 .panel-heading
                                   h4.timeline-title Bill # #{bill.billId}                            
-                              .timeline-body
+                              .timeline-body 
                                 p Status: #{bill.status}
                                 p HOE: #{bill.hoe}
                                 P OOE: #{bill.ooe}
                                 p Due Date: #{bill.dueDate}
                                 p Outstanding: #{bill.totalOutstanding}
+                                p.small Transaction ID: #{bill.transaction_id}
+                                p Transaction Date: #{bill.transactionDate}
                         when 1
                           li.timeline-inverted
                             .timeline-badge.warning
@@ -93,6 +96,8 @@ html(lang='en')
                                 P OOE: #{bill.ooe}
                                 p Due Date: #{bill.dueDate}
                                 p Outstanding: #{bill.totalOutstanding}
+                                p Transaction ID: #{bill.transaction_id}
+                                p Transaction Date: #{bill.transactionDate}
                 // /.row
               // /.panel-body
             // /.panel
