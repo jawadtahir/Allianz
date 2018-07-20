@@ -40,14 +40,20 @@ exports.billhist = async function (req, res) {
 
     transaction.billId = req.params["billid"];
     var resp = await bnc.submitTransaction(transaction);
-
     resp = resp.split('#SEP#');
     for (var i = 1; i < resp.length; i++){
         var data = resp[i];
         data = JSON.parse(data);
-        data.dueDate = new Date(data.dueDate).toLocaleDateString();
-        data.hoe = data.hoe.split("#")[1];
-        data.ooe = data.ooe.split("#")[1];
+		data.transactionDate = new Date((data.transaction_epoch_sec * 1000));
+		if(data.status == "DELETED") {
+			data.dueDate = "N/A"; //Normally I should do it from Hyperledger part but dont want to create any error
+			data.hoe = "N/A";
+			data.ooe = "N/A";
+		} else {
+			data.dueDate = new Date(data.dueDate).toLocaleDateString();
+        	data.hoe = data.hoe.split("#")[1];
+        	data.ooe = data.ooe.split("#")[1];
+		}
         if ((i%2) == 0){
             data.orientation = "timeline-inverted";
         }else {
@@ -55,9 +61,8 @@ exports.billhist = async function (req, res) {
         }
         billHist.push(data);
     }
-
+	var obill;
     billHist.reverse();
-
     QRCode.toDataURL(req.params.billid.toString(), function (err, url) {
         axios.get(BILL_API_ENDPOINT.concat(req.params.billid.toString()))
         .then(response => {
@@ -90,7 +95,12 @@ exports.billhist = async function (req, res) {
             
         })
         .catch(error => {
-            console.log(error);
+            console.log("You are looking for a DELETED Bill???");
+			res.render(path.join(__dirname, "../public/pages/obillhist"), {
+                        bills: billHist,
+                        user:app.get('USER'),
+                        QRCode: url
+			});
         });
     });
 
