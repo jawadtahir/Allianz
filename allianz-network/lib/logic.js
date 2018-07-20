@@ -105,12 +105,24 @@ async function getHistroy(tx) {
     var SEP = '#SEP#';
     var nativeKey = getNativeAPI().createCompositeKey('Asset:de.tum.allianz.ics.Bill', [billId]);
     var iterator = await getNativeAPI().getHistoryForKey(nativeKey);
-
     let res = { done: false };
+  	var last_res = '';
     while (!res.done) {
         res = await iterator.next();
         if (res && res.value && res.value.value) {
-            billHist += SEP+res.value.value.toString('utf8');
+            if(res.value.is_delete == true) { //I know that part is so crazy but I dont want to make any mistake right now
+              var sep_res = SEP + last_res;
+              sep_res = sep_res.replace("SETTELED", "DELETED");
+              sep_res = sep_res.replace("PENDING", "DELETED");
+              sep_res = sep_res.replace("SHOULDAUTH", "DELETED");
+              sep_res = sep_res.substr(0,6) + '"transaction_id":' + '"' + res.value.tx_id + '",' +    '"transaction_epoch_sec":' + '"' + res.value.timestamp.seconds.low + '",' + sep_res.substr(6);
+              billHist += sep_res;
+            } else {
+              last_res = res.value.value.toString('utf8');
+              var sep_res = SEP + res.value.value.toString('utf8');
+              sep_res = sep_res.substr(0,6) + '"transaction_id":' + '"' + res.value.tx_id + '",' +    '"transaction_epoch_sec":' + '"' + res.value.timestamp.seconds.low + '",' + sep_res.substr(6);
+              billHist += sep_res;
+            }
         }
         if (res && res.done) {
             try {
@@ -151,7 +163,6 @@ async function calculatePenalty(tx) {
         concept.billId = bill.billId;
         concept.totalAmount = bill.totalAmount;
         concept.handlingFee = bill.handlingFee;
-        console.log("****************************");
         console.log(todayDate);
         console.log(bill.dueDate);
         console.log();
@@ -221,3 +232,4 @@ async function onAuthorize(tx) {
     emit(event);
 
 }
+
