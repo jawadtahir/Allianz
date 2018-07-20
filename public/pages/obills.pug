@@ -3,6 +3,8 @@ html(lang='en')
   head
     include header_with_tables.pug
     title Allianz ICS
+    - var btnType = 'info'
+    - var btnSize = 'sm'
   body
     #wrapper
       // Navigation
@@ -29,15 +31,23 @@ html(lang='en')
                       th Bill amount
                       th HOE
                       th Action                  
+                      th Details
                   tbody
                     each auth in authList
                       tr
-                        td #{auth.billId}
+                        td
+                          - var url = auth.billId
+                          a(href="/ics/billhist/"+url)  #{auth.billId}
                         td #{auth.dueDate}
                         td #{auth.totalOutstanding}
                         td #{auth.hoe}
                         td
-                          buttonbtn.btn.btn-primary(type="button", onclick="onClickAuth(\'"+auth.billId+"\');") Auth
+                          if (user.role == "USER")
+                            buttonbtn.btn.btn-primary(type="button" ,class="disabled") Auth
+                          else
+                            buttonbtn.btn.btn-primary(type="button" , onclick="onClickAuth(\'"+auth.billId+"\');") Auth
+                        td
+                          a(class='btn btn-' + btnType + ' btn-' + btnSize href='/ics/billhist/'+ url) View Details
                 // /.table-responsive
               // /.panel-body
             // /.panel
@@ -58,16 +68,21 @@ html(lang='en')
                       th Bill amount
                       th HOE
                       th Authorized by
+                      th Details
                   tbody
                     each pending in pendingList
                       tr
                         td
                           input(type='checkbox')
-                        td #{pending.billId}
+                        td
+                          - var url = pending.billId
+                          a(href="/ics/billhist/"+url) #{pending.billId}
                         td #{pending.dueDate}
                         td #{pending.totalOutstanding}
                         td #{pending.hoe}
                         td #{pending.authorizor}
+                        td
+                           a(class='btn btn-' + btnType + ' btn-' + btnSize href='/ics/billhist/'+ url) View Details
                 button.btn.btn-primary(type='button', onclick="calculatePenality();") Pay
                 // /.table-responsive
               // /.panel-body

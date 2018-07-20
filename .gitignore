@@ -15,3 +15,5 @@ allianz-network/package-lock\.json
 
 allianz-network/package\.json
 *.patch
+
+test/

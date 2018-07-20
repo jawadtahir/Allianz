@@ -9,7 +9,7 @@ FILE_INDEX = 5;
 NAMESPACE = "de.tum.allianz.ics.";
 RESOURCE = "resource:de.tum.allianz.ics.";
 
-function createBill(){
+async function createBill(){
     var dataTable = document.getElementById('dataTables-example');
     var claimsList = [];
     var ooeToClaimMap = {};
@@ -17,7 +17,8 @@ function createBill(){
         
         var checkBox = dataTable.rows[i].cells[CHECKBOX_INDEX].children[0];
         if (checkBox.checked){
-
+			console.log(dataTable.rows[i]);
+			dataTable.rows[i].style.display = 'none';
             var claim = new Object();
             claim.$class = NAMESPACE+"Claim";
             claim.ClaimId = dataTable.rows[i].cells[CLAIMNO_INDEX].innerText;
@@ -43,15 +44,22 @@ function createBill(){
         transactionData.dueDate = new Date();
         transactionData.dueDate.setMonth(transactionData.dueDate.getMonth() + 2);
         transactionData.dueDate = transactionData.dueDate.toJSON();
-
-        $.post("http://localhost:3000/api/CreateBill", transactionData, function(response){
-            console.log(response);
-            location.reload();
+        let send = $.post("http://localhost:3000/api/CreateBill", transactionData, function(response){
+            //location.reload(); @Jawad I commented it, since it breaks element-hiding, but if neccessary i can uncomment it again and find another way to fix it.
         }).done(function(response){
-            console.log(response);
+			updateBCDB(transactionData);
         }).fail(function(error){
-            console.log(error);
-        });
 
+        });
+		await send;
     }
 }
+
+function updateBCDB(transactionData) {
+		$.post("http://localhost:30001/ics/claims", transactionData, function(response) {
+			}).done(function(response) {
+			}).fail(function(response) {
+				console.log(response);
+			});
+}
+

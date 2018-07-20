@@ -76,6 +76,7 @@ asset Bill identified by billId {
 participant OE identified by oeId {
   o String oeId
   o String name
+  o String IBAN
 }
 
 participant User identified by userId {
@@ -113,6 +114,12 @@ transaction UpdateHFee {
 transaction calculatePenalty {
   o String [] billIds
   o DateTime payDate
+}
+
+@commit(false)
+@returns(String)
+transaction getHistroy {
+  o String billId
 }
 
 transaction UpdateAmount {

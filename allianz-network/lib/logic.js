@@ -23,9 +23,9 @@
  * @returns {number} double
  * @transaction
  */
- function sampleTransaction(tx) {
-     console.log(tx.newValue * 2);
-    return tx.newValue * 2; 
+function sampleTransaction(tx) {
+    console.log(tx.newValue * 2);
+    return tx.newValue * 2;
     // Save the old value of the asset.
     // const oldValue = tx.asset.value;
 
@@ -50,7 +50,7 @@
  * @transaction
  */
 async function CreateBill(make) {
-  	var AUTH_LIMIT = 15000.0;
+    var AUTH_LIMIT = 15000.0;
     var handlingFee = calculateHandlingFee(make.claims);
     var totalAmount = [];
     //var hoe= getCurrentParticipant();
@@ -59,14 +59,14 @@ async function CreateBill(make) {
         totalAmount.push(element.totalAmount);
     });
     let asset = await getAssetRegistry('de.tum.allianz.ics.Bill');
-    var bill  = factory.newResource('de.tum.allianz.ics', 'Bill', make.billId);
-    bill.hoe= make.hoe;
+    var bill = factory.newResource('de.tum.allianz.ics', 'Bill', make.billId);
+    bill.hoe = make.hoe;
     bill.ooe = make.ooe;
     bill.claims = make.claims;
-  	bill.totalAmount=totalAmount.reduce((a,b) => a+b,0);
-    bill.handlingFee=handlingFee.reduce((a,b) => a+b,0);
-    bill.totalOutstanding = totalAmount.reduce((a,b) => a+b,0) + handlingFee.reduce((a,b) => a+b,0);
-    if (bill.totalAmount <= AUTH_LIMIT){
+    bill.totalAmount = totalAmount.reduce((a, b) => a + b, 0);
+    bill.handlingFee = handlingFee.reduce((a, b) => a + b, 0);
+    bill.totalOutstanding = totalAmount.reduce((a, b) => a + b, 0) + handlingFee.reduce((a, b) => a + b, 0);
+    if (bill.totalAmount <= AUTH_LIMIT) {
         bill.status = 'PENDING';
     } else {
         bill.status = "SHOULDAUTH";
@@ -82,13 +82,62 @@ async function CreateBill(make) {
  * @param {array} claims Gets the claims.
  * @returns {array} The calculated Handling fee for each claim.
  */
-function calculateHandlingFee(claims){
+function calculateHandlingFee(claims) {
     var handlingFee = [];
     claims.forEach(element => {
-        handlingFee.push(element.totalAmount * 15/100);
+        handlingFee.push(element.totalAmount * 15 / 100);
     });
     return handlingFee;
 }
+
+
+/**
+ * update bill
+ * @param {de.tum.allianz.ics.getHistroy} tx - the pay to be processed
+ * @returns {string} The string.
+ * @transaction
+ * 
+ */
+
+async function getHistroy(tx) {
+    var billId = tx.billId;
+    var billHist = '';
+    var SEP = '#SEP#';
+    var nativeKey = getNativeAPI().createCompositeKey('Asset:de.tum.allianz.ics.Bill', [billId]);
+    var iterator = await getNativeAPI().getHistoryForKey(nativeKey);
+    let res = { done: false };
+  	var last_res = '';
+    while (!res.done) {
+        res = await iterator.next();
+        if (res && res.value && res.value.value) {
+            if(res.value.is_delete == true) { //I know that part is so crazy but I dont want to make any mistake right now
+              var sep_res = SEP + last_res;
+              sep_res = sep_res.replace("SETTELED", "DELETED");
+              sep_res = sep_res.replace("PENDING", "DELETED");
+              sep_res = sep_res.replace("SHOULDAUTH", "DELETED");
+              sep_res = sep_res.substr(0,6) + '"transaction_id":' + '"' + res.value.tx_id + '",' +    '"transaction_epoch_sec":' + '"' + res.value.timestamp.seconds.low + '",' + sep_res.substr(6);
+              billHist += sep_res;
+            } else {
+              last_res = res.value.value.toString('utf8');
+              var sep_res = SEP + res.value.value.toString('utf8');
+              sep_res = sep_res.substr(0,6) + '"transaction_id":' + '"' + res.value.tx_id + '",' +    '"transaction_epoch_sec":' + '"' + res.value.timestamp.seconds.low + '",' + sep_res.substr(6);
+              billHist += sep_res;
+            }
+        }
+        if (res && res.done) {
+            try {
+                iterator.close();
+            }
+            catch (err) {
+            }
+        }
+    }
+    return billHist;
+}
+
+
+
+
 /**
  * update bill
  * @param {de.tum.allianz.ics.calculatePenalty} tx - the pay to be processed
@@ -103,19 +152,31 @@ async function calculatePenalty(tx) {
     var billObjs = [];
     var factory = await getFactory();
 
+
+
+
     var registry = await getAssetRegistry('de.tum.allianz.ics.Bill');
-    for (var i = 0; i < bills.length; i++){
+    for (var i = 0; i < bills.length; i++) {
         var bill = await registry.get(bills[i]);
         var concept = await factory.newConcept("de.tum.allianz.ics", "BillConcept");
         concept.BillConceptID = bill.billId
         concept.billId = bill.billId;
         concept.totalAmount = bill.totalAmount;
-        concept.handlingFee = bill.handlingFee;  
-        if (bill.dueDate < todayDate){
+        concept.handlingFee = bill.handlingFee;
+        console.log(todayDate);
+        console.log(bill.dueDate);
+        console.log();
+        console.log(bill.dueDate < todayDate);
+        
+        
+        
+        if (bill.dueDate < todayDate) {
             concept.latePenality = (bill.totalOutstanding * (12 / 100));
-        }else{
+        } else {
             concept.latePenality = 0;
         }
+        console.log(concept.latePenality);
+        
         concept.totalOutstanding = bill.totalOutstanding + concept.latePenality;
         concept.dueDate = bill.dueDate;
         billObjs.push(concept);
@@ -135,7 +196,7 @@ async function calculatePenalty(tx) {
 async function pay(pay) {
     var bills = pay.bills;
     var registry = await getAssetRegistry('de.tum.allianz.ics.Bill');
-    for (var i = 0; i < bills.length; i++){
+    for (var i = 0; i < bills.length; i++) {
         var bill = await registry.get(bills[i].billId);
         bill.totalOutstanding = 0.0;
         bill.latePenality = bills[i].latePenality;
@@ -153,7 +214,7 @@ async function pay(pay) {
  * @param {de.tum.allianz.ics.Authorize} tx
  * @transaction
  */
-async function onAuthorize(tx){
+async function onAuthorize(tx) {
     var bill = tx.bill;
     var user = tx.user;
 
@@ -171,3 +232,4 @@ async function onAuthorize(tx){
     emit(event);
 
 }
+
