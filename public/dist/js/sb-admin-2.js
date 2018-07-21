@@ -39,6 +39,8 @@ $(function() {
         USER.role = $('#userRole').text();
     }
 
+    
+
     var url = window.location;
     // var element = $('ul.nav a').filter(function() {
     //     return this.href == url;
@@ -57,3 +59,11 @@ $(function() {
 
     getUser();
 });
+
+
+function getBillHIst(){
+    var billId = $('#search-box').val().trim();
+    window.location.replace("http://localhost:30001/ics/billhist/"+billId);
+    
+
+}
