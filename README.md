@@ -14,9 +14,23 @@ Check if it has data ```./test.bcdb.py```
 Populate it with data if it is empty ```node populate_bcdb.js```  !!!! NOT PYTHON SCRIPT ANYMORE !!!!  
 Run your IPFS Daemon(Not Required if src/config.js dev_mode: true,)  
 npm install  
-npm start  
 
-go port 30001  
+To install and start the network for Hyperledger code:
+
+- Create .bna file : ```composer archive create -t dir -n allianz-network```
+- Create PeerAdmin card (give the location of connection.json, cert and private key files to following command) :  
+    ```composer card create -p connection.json -u PeerAdmin -c Admin@org1.example.com-cert.pem -k 114aab0e76bf0c78308f89efc4b8c9423e31568da0c340ca187a9b17aa9a4457_sk -r PeerAdmin -r ChannelAdmin```
+- Import PeerAdmin card : ```composer card import -f PeerAdmin@allianz-network.card```
+- Install network with previously created bna (version of .bna is important) : 
+    ```composer network install -c PeerAdmin@allianz-network -a tutorial-network@0.0.36.bna```
+- Start the network : 
+    ```composer network start --networkName allianz-network --networkVersion 0.0.36 -A admin -S adminpw -c PeerAdmin@allianz-network```
+- To start rest server ("never use namespace" and "no" to every option):  composer-rest-server 
+    go to ```localhost:3000/explorer```
+- To start the project:
+    npm start in another terminal
+    go to ```localhost:30001/ics```
+
 
 - We have already 7 different claims in IPFS Network. You don't need to upload a file/insert something to IPFS before testing.  
 - If you cannot see any claims while testing, please look at ```Populate and Test Big Chain Database``` or ```After creating bills , I cannot see any claim, What should I do?``` section.  
