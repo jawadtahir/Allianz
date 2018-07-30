@@ -3,7 +3,7 @@
   "title": "Allianz ICS",
   "version": "0.0.1",
   "homepage": "http://www.allianz.com",
-  "author": "Jawad Tahir",
+  "author": "Allianz TEAM 1 (Internal Part)",
   "license": "MIT",
   "devDependencies": {
     "bigchaindb-driver": "^4.0.2",
