@@ -44,9 +44,11 @@ After STARTING network, use ```composer-playground``` command to start playgroun
 - Switch to test tab ```http://localhost:8080/test```  
 - Create new OEs, you can use example files at  ```usersandoes/frenchoe.json``` and ```usersandoes/frenchoe.json```  
 - Create new Users, and do not forget to give reference of related Oes. you can use example files at ```usersandoes/germanuser.json``` and ```usersandoses/frenchuser.json```  
+- Lastly create an authorizer-User for French OE's to be able to complete workflow. You can use frenchauth.json for that  
 - Click on ```admin``` string that top of right-top of page, then click on ```ID Registry```  
 - Click on ```Issue new Id```, write German as ```Id name``` and select ```DE1``` as participant. Click Create-New and add it to your wallet.   
 - Click on ```Issue new Id```, write French as ```Id name``` and select ```FR1``` as participant. Click Create-New and add it to your wallet.   
+- Click on ```Issue new Id```, write FrenchAuth as ```Id name``` and select ```FR2``` as participant. Click Create-New and add it to your wallet.  
 
 Now you can login with using ```German``` or ```French``` as username and their identity ids as password from ```localhost:30001/ics/login``` page.  
 You can find identity ids from ```http://localhost:3000/explorer/#!/System/System_getAllIdentities```  
@@ -116,6 +118,22 @@ However in ```dev``` mode, since we don't have ipfs we use a very simple json fi
 check ```controllers/hardcoded_files.json```. Then set ```"created":``` values to ```true```. After that you can be able to see claims again.  
 Actually in production, (which we use ipfs), it much more complicated, and you have to add new ipfs files to system, with right metadata's to see them.  
 I will explain all steps in meeting, and then we can update documentation together.
+
+## An Example Workflow ##
+!! Since I can't use ipfs right now, in following steps assume that dev_mode is true !!  
+We will use German, French and FrenchAuthorizer accounts during workflow. If you need some help for setting them up, please visit ```Add Dummy Users to Hyperledger Blockchain``` Section.   
+- Login with German User  
+- Click Complated Claims Tab  
+- Select 2nd, 3rd and 4th claims and click on create bill button  
+- Validate 3 different bills created (since 2nd, 3rd and 4th has different oes) with ```http://localhost:3000/explorer/#!/Bill/Bill_find```  
+- Click on handling bills tab, and in here you can see the bills you created in one step before. As you can see since French one's expense is higher than threshold it needs authorization.  
+- You can click view-details to show status/history of bill  
+- Logout and login as French-Authorizer.  
+- Go to Owning Bills Section and and click ```Auth``` button.  
+- You can pay with FrenchAuth user too, but for a better flow, logout from FrenchAuth user and login with French user
+- Click on owning bills again, and click on pay button.  
+- Now logout and then login with German account again.  
+- Click on handling bills tab. Now you can observe that, French Bills status changed to SETTLED from NEEDSAUTH. You can click on view details to show history of that bill.  
 
 ## Documentations ##
 
