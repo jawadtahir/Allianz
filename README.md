@@ -72,14 +72,28 @@ To be able to run ```ipfs daemon``` that required for testing. First you must in
 - Start Deamon with ```ipfs daemon```  
 
 ## Add File To IPFS, Get It From /Claims ##
-To be able to add file to IPFS, first install IPFS and then follow these instructions:  
+That section about adding a new file to ipfs as a claim, and get it from our hyperledger apps claims section  
 
-- Go to Allianz root then ```cd ipfs```  
-- ```npm install && npm start``` (Wait until its started)  
-- Start Daemon with ```ipfs daemon```  
-- ```npm install && npm start```  
-- Go to your web browser(http://localhost:3000), add your file  
-If you are running ```hyperldedger-playground```, then you have to first close it, since they are using same ports.  
+First lets analyze a basic claim json file structure. (You can find some example files in /ipfs-jsons directory)  
+```
+{"claim_id":"1","claim_date":"2018/06/20","ooe":"FR","hoe":"DE","sum_expense":"10000"}
+```
+- claim_id -> Claim ID  
+- claim_date -> a date but be aware of format  
+- ooe -> After hoe creates bill, it will appear related ooe's page. So you should give a vaild ooe(for example if you have DE and FR accs give ooe to FR and hoe to DE etc)  
+- hoe -> Handler oe, if you want to see it in claims tab, your hoe code in file, and your login id should match (if you login with DE acc, you can only see claims which have DE as hoe)  
+- sum_expense -> it is important for authorization stuff, if you want to test authorization give a big number such as 90000.  
+
+First of all create your new claim file with following that format, change its extension to .json  
+
+- Start IPFS-Daemon with ```ipfs daemon```  
+- Open page ```http://localhost:5001/webui``` with your web browser  
+- Click to Files Section, upload your file, and then get hash of it by right click it -> select copy hash.  
+- Start your local BCDB instance  
+- Now you must change populate_bcdb.js to be able to add your new claim to bcdb. Open that file in a text editor.  
+- Remove all current objects in claims array except first one(if you want to add two files keep 2 etc). Change its ipfs_file_hash value to your new file hash(you got it with right clicking in three steps before)  
+- Run ./populate_bcdb.js sometimes it may take 2-3 mins. Then test it with ./test_bcdb.js to be sure about that process completed successfully.  
+- Login with account which is identical to ```hoe``` field in uploaded json file. You should be able to see it in /claims tab  
 
 ## After creating bills , I cannot see any claim, What should I do? ##
 
